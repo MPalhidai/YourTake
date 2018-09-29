@@ -1,4 +1,14 @@
 class ReviewsController < ApplicationController
+  before_action :authenticate_user!, only: [:new, :create, :destroy]
+
+  def new
+
+  end
+
+  def create
+
+  end
+
   def index
 
   end
@@ -6,4 +16,9 @@ class ReviewsController < ApplicationController
   def show
 
   end
+
+  def destroy
+
+  end
+  
 end

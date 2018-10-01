@@ -4,11 +4,33 @@
       <h1 class="text-white">YourTake</h1>
     </div>
     <div class="col text-right">
-      <%= link_to "Home", root_path %>
-      <%= link_to "Movies", movies_path %>
-      <%= link_to "Reviews", reviews_path %>
-      <%= link_to "About", root_path %>
-      <!-- needs links to devise user info think about about being a dropdown -->
+      <%= link_to root_path, class: "pl-2" do %>
+        <%= fa_icon "home"  %>
+        <span>Home</span>
+      <% end %>
+      <%= link_to movies_path, class: "px-2" do %>
+        <%= fa_icon "film" %>
+        <span>Movies</span>
+      <% end %>
+      <%= link_to reviews_path, class: "pr-2" do %>
+        <%= fa_icon "comment" %>
+        <span>Reviews</span>
+      <% end %>
+      <% if user_signed_in? %>
+        <div class="btn-group align-items-center">
+          <button type="button" class="btn btn-outline-primary dropdown-toggle d-flex align-items-center" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <%= current_user.name %>
+          </button>
+          <div class="dropdown-menu dropdown-menu-right text-center">
+            <%= link_to "Account", edit_user_registration_path %>
+            <div class="dropdown-divider"></div>
+            <%= link_to "Log Out", destroy_user_session_path, :method => "delete" %>
+          </div>
+        </div>
+      <% else %>
+        <%= link_to "Sign in", new_user_session_path, :class => "btn btn-outline-primary" %>
+        <%= link_to "Sign up", new_user_registration_path, :class => "btn btn-outline-primary" %>
+      <% end %>
     </div>
   </div>
 </nav>

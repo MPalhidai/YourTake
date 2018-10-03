@@ -1,24 +1,35 @@
 <div class="movie_side_panel border border-secondary p-3">
   <div class="row justify-content-between">
     <h3>Recent Reviews</h3>
-    <div class="col-8">
-
+    <!-- last three reviews -->
+    <div class="col-8 p-0">
+      <div class="movie_card_reviews mb-2">
+        <!-- filler -->
+        <span>movie.review.comment</span>
+        <span>movie.review.rating</span>
+        <p>movie.title</p>
+      </div>
     </div>
-    <div class="col-4">
-
+    <div class="col-4 pr-0">
+      <!-- filler -->
+      <span>movie.review.rating</span>
     </div>
-    <%= link_to "View All Reviews", reviews_path %>
-    <hr>
+    <%= link_to "View All Reviews", reviews_path, class: "text-right" %>
   </div>
+  <hr>
   <div class="row justify-content-between">
     <h3>Recent Movies</h3>
-    <div class="col-8">
-
+    <!-- recently reviewed movies -->
+    <!-- last four reviewed movies -->
+    <div class="col-8 p-0">
+      <!-- filler -->
+      <p>movie.title</p>
     </div>
-    <div class="col-4">
-
+    <div class="col-4 pr-0">
+      <!-- filler -->
+      <span>movie.reviews.avg</span>
     </div>
-    <%= link_to "View All Movies", movies_path %>
+    <%= link_to "View All Movies", movies_path, class: "text-right" %>
     <hr>
   </div>
 </div>

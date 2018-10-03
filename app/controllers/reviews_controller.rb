@@ -10,7 +10,7 @@ class ReviewsController < ApplicationController
   end
 
   def index
-
+    @reviews = Review.all
   end
 
   def show
@@ -20,5 +20,5 @@ class ReviewsController < ApplicationController
   def destroy
 
   end
-  
+
 end

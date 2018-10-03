@@ -21,6 +21,9 @@
         <span>movie.review.comment</span>
         <span>movie.review.user</span>
       </div>
+      <%# if movie.revies.length > 2 %>
+        <%#= link_to "View More", review_path(id) %>
+      <%# end %>
       <%= link_to "Leave A Review", new_review_path %>
     </div>
 

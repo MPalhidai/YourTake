@@ -5,16 +5,16 @@
         <div class="col">
           <span>Sort By: </span>
           <div class="btn-group" role="group" aria-label="Basic example">
-            <button type="button" class="btn btn-outline-secondary">Title</button>
-            <button type="button" class="btn btn-outline-secondary">Release Date</button>
-            <button type="button" class="btn btn-outline-secondary">Genre</button>
+            <button type="button" class="btn btn-outline-secondary title">Title</button>
+            <button type="button" class="btn btn-outline-secondary releaseDate">Release Date</button>
+            <button type="button" class="btn btn-outline-secondary genre">Genre</button>
             <!-- place holder buttons -->
           </div>
         </div>
       </div>
       <div class="row justify-content-between">
-        <div class="col-md-8">
-          <%= render "movies/movie_card" %>
+        <div class="col-md-8 movie_partials">
+          
         </div>
         <div class="col-md-4">
           <%= render "movies/movie_side_panel" %>

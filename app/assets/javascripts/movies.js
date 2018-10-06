@@ -69,7 +69,11 @@ const renderMovies = (movies) => {
     let movie_card_bot_col_4 = document.createElement('div');
     movie_card_bot_col_4.classList.add('col-4', 'movie_card_rating_avg', 'text-center');
     let movie_card_star_span = document.createElement('span');
-    movie_card_star_span.innerHTML = movie.vote_average; // change this into stars
+    movie_card_star_span.classList.add('stars-container', 'stars-' + (Math.floor(movie.vote_average)*10).toString());
+    movie_card_star_span.innerHTML = '★★★★★'; // change this into stars
+    let movie_card_review_avg = document.createElement('span');
+    movie_card_review_avg.classList.add('review-avg');
+    movie_card_review_avg.innerHTML += ` ${movie.vote_average}`;
     // bot col right
     let movie_card_bot_col_8 = document.createElement('div');
     movie_card_bot_col_8.classList.add('col-8', 'p-0');
@@ -95,6 +99,7 @@ const renderMovies = (movies) => {
     movie_card_top_col_8.appendChild(movie_card_rating_div);
 
     movie_card_bot_col_4.appendChild(movie_card_star_span);
+    movie_card_bot_col_4.appendChild(movie_card_review_avg);
 
     movie_card_bot_col_8.appendChild(movie_card_view_more);
     movie_card_bot_col_8.appendChild(movie_card_leave_review);

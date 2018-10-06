@@ -40,10 +40,10 @@ const renderMovies = (movies) => {
     movie_card_title.innerHTML = movie.title;
     let movie_card_release_date = document.createElement('p');
     movie_card_release_date.classList.add('m-0');
-    movie_card_release_date.innerHTML = `Release Date: ${movie.release_date}`;
+    movie_card_release_date.innerHTML = `Release Date:  ${movie.release_date}`;
     let movie_card_genre = document.createElement('p');
     movie_card_genre.classList.add('mb-2');
-    movie_card_genre.innerHTML = `Genre: `;
+    movie_card_genre.innerHTML = 'Genre: ';
     for (let i = 0; i < movie.genre_ids.length; i++) {
       if (i != movie.genre_ids.length - 1) {
         movie_card_genre.innerHTML += `${genreList[movie.genre_ids[i]]}, `;

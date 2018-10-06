@@ -21,10 +21,8 @@ const renderMovies = (movies) => {
     let movie_partials = document.querySelector('.movie_partials');
     let movie_card = document.createElement('div');
     movie_card.classList.add('movie_card', 'border', 'border-secondary', 'p-3', 'mb-3');
-    //top row
     let movie_card_top_row = document.createElement('div');
     movie_card_top_row.classList.add('row', 'justify-content-between');
-    //top left
     let movie_card_top_col_4 = document.createElement('div');
     movie_card_top_col_4.classList.add('col-4', 'text-center');
     let movie_card_cover = document.createElement('div');
@@ -32,7 +30,6 @@ const renderMovies = (movies) => {
     let movie_card_cover_img = document.createElement('img');
     movie_card_cover_img.classList.add('movie_card_cover_img');
     movie_card_cover_img.src = `http://image.tmdb.org/t/p/w154//${movie.poster_path}`;
-    //top right
     let movie_card_top_col_8 = document.createElement('div');
     movie_card_top_col_8.classList.add('col-8', 'p-0');
     let movie_card_title = document.createElement('h3');
@@ -54,28 +51,35 @@ const renderMovies = (movies) => {
     };
     let movie_card_rating_div = document.createElement('div');
     movie_card_rating_div.classList.add('movie_card_reviews', 'mb-2');
-    let movie_card_rating_1 = document.createElement('p');
-    movie_card_rating_1.classList.add('movie_card_rating', 'mb-0');
-    movie_card_rating_1.innerHTML = "Stars This movie is great! - critic";
-    // CHANGE ABOVE ajax call on movie id to get newest reviews
-    let movie_card_rating_2 = document.createElement('p');
-    movie_card_rating_2.classList.add('movie_card_rating', 'mb-0');
-    movie_card_rating_2.innerHTML = "Stars This movie is great! - critic";
-    // CHANGE ABOVE ajax call on movie id to get newest reviews
-
-    // bottom row
+    settings.url = BASEURL + `movie/${movie.id}/reviews`+ KEY + LANGUAGE + `&page=1`;
+    $.ajax(settings).done(function (api_movie_review_call) {
+      // api_movie_review_call.results.for 2 then extend to all on page 1
+      for (let i = 0; i < api_movie_review_call.results.length; i++) {
+        let movie_card_rating_stars = document.createElement('span');
+        movie_card_rating_stars.classList.add('stars-container', 'bigger', 'stars-' + (movie.vote_average*10).toString());
+        movie_card_rating_stars.innerHTML = '★★★★★';
+        let movie_card_rating_partial = document.createElement('a');
+        movie_card_rating_partial.classList.add('movie_card_rating', 'mb-0');
+        movie_card_rating_partial.href = api_movie_review_call.results[i].url;
+        let long_comment = api_movie_review_call.results[i].content;
+        if (long_comment.length > 32) {
+          let short_comment = long_comment.substring(0, 29) + "...";
+          movie_card_rating_partial.innerHTML = ` ${short_comment} - ${api_movie_review_call.results[i].author}`;
+        } else {
+          movie_card_rating_partial.innerHTML = ` ${long_comment} - ${api_movie_review_call.results[i].author}`;
+        }
+        movie_card_rating_div.appendChild(movie_card_rating_stars);
+        movie_card_rating_div.appendChild(movie_card_rating_partial);
+        movie_card_rating_div.appendChild(document.createElement('br'));
+      }
+    });
     let movie_card_bot_row = document.createElement('div');
     movie_card_bot_row.classList.add('row', 'align-items-end');
-    // bot col left
     let movie_card_bot_col_4 = document.createElement('div');
     movie_card_bot_col_4.classList.add('col-4', 'movie_card_rating_avg', 'text-center');
     let movie_card_star_span = document.createElement('span');
-    movie_card_star_span.classList.add('stars-container', 'stars-' + (movie.vote_average*10).toString());
+    movie_card_star_span.classList.add('stars-container', 'bigger', 'stars-' + (movie.vote_average*10).toString());
     movie_card_star_span.innerHTML = '★★★★★';
-    let movie_card_review_avg = document.createElement('span');
-    movie_card_review_avg.classList.add('review-avg');
-    movie_card_review_avg.innerHTML += ` ${movie.vote_average}`;
-    // bot col right
     let movie_card_bot_col_8 = document.createElement('div');
     movie_card_bot_col_8.classList.add('col-8', 'p-0');
     let movie_card_view_more = document.createElement('a');
@@ -89,9 +93,6 @@ const renderMovies = (movies) => {
 
     movie_card_cover.appendChild(movie_card_cover_img);
 
-    movie_card_rating_div.appendChild(movie_card_rating_1);
-    movie_card_rating_div.appendChild(movie_card_rating_2);
-
     movie_card_top_col_4.appendChild(movie_card_cover);
 
     movie_card_top_col_8.appendChild(movie_card_title);
@@ -100,7 +101,6 @@ const renderMovies = (movies) => {
     movie_card_top_col_8.appendChild(movie_card_rating_div);
 
     movie_card_bot_col_4.appendChild(movie_card_star_span);
-    movie_card_bot_col_4.appendChild(movie_card_review_avg);
 
     movie_card_bot_col_8.appendChild(movie_card_view_more);
     movie_card_bot_col_8.appendChild(movie_card_leave_review);
@@ -122,13 +122,11 @@ $(document).ready(function(){
     api_genre_call.genres.forEach(function(genre) {
       genreList[genre.id] = genre.name
     });
-    console.log(genreList);
   });
 
   settings.url = movieIndexURL;
   $.ajax(settings).done(function (api_movie_call) {
     renderMovies(api_movie_call);
-    console.log(api_movie_call);
   });
   $('.title').on('click', function(){
     // front end filter and sort

@@ -25,7 +25,7 @@
 }
 
 .movie_side_panel, .movie_card {
-  background-color: lightgray;
+  background-color: #ececec;
 }
 
 
@@ -35,7 +35,11 @@
   position: relative;
   display: inline-block;
   color: transparent;
-  text-shadow: -1px -1px gray, 1px -1px gray, -1px 1px gray, 1px 1px gray;
+  text-shadow: -1px -1px 1px gray, 1px -1px 1px gray, -1px 1px 1px gray, 1px 1px 1px gray;
+}
+
+.bigger {
+  font-size: 1.5rem;
 }
 
 .stars-container:before {

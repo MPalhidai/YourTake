@@ -5,8 +5,8 @@ const GENRE = "genre/movie/list";
 const LANGUAGE = "&language=en-US";
 let movieIndexURL = BASEURL + DISCOVER + KEY + LANGUAGE + "&sort_by=popularity.desc&include_adult=false&include_video=false&page=1";
 const GENRES = BASEURL + GENRE + KEY + LANGUAGE;
+const MONTHS = {'01':'Jan','02':'Feb','03':'Mar','04':'Apr','05':'May','06':'Jun','07':'Jul','08':'Aug','09':'Sep','10':'Oct','11':'Nov','12':'Dec'};
 let genreList = {};
-
 let settings = {
   async: true,
   crossDomain: true,
@@ -40,7 +40,8 @@ const renderMovies = (movies) => {
     movie_card_title.innerHTML = movie.title;
     let movie_card_release_date = document.createElement('p');
     movie_card_release_date.classList.add('m-0');
-    movie_card_release_date.innerHTML = `Release Date:  ${movie.release_date}`;
+    let date = movie.release_date.split('-');
+    movie_card_release_date.innerHTML = `Release Date: ${MONTHS[date[1]]} ${date[2]}, ${date[0]}`;
     let movie_card_genre = document.createElement('p');
     movie_card_genre.classList.add('mb-2');
     movie_card_genre.innerHTML = 'Genre: ';

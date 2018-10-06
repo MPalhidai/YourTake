@@ -16,6 +16,10 @@
         <%= fa_icon "comment" %>
         <span>Reviews</span>
       <% end %>
+      <%= link_to root_path, class: "pr-2" do %>
+        <%= fa_icon "info-circle" %>
+        <span>About</span>
+      <% end %>
       <% if user_signed_in? %>
         <div class="btn-group align-items-center">
           <button type="button" class="btn btn-outline-primary dropdown-toggle d-flex align-items-center" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

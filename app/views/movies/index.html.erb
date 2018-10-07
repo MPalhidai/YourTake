@@ -1,6 +1,6 @@
 <section id="movies">
   <div class="row justify-content-center py-3">
-    <div class="col-lg-10 col-md-11">
+    <div class="col-xl-10">
       <div class="row py-3">
         <div class="col">
           <span>Sort By: </span>
@@ -8,23 +8,22 @@
             <button type="button" class="btn btn-outline-secondary title">Title</button>
             <button type="button" class="btn btn-outline-secondary releaseDate">Release Date</button>
             <button type="button" class="btn btn-outline-secondary genre">Genre</button>
-            <!-- place holder buttons -->
           </div>
         </div>
       </div>
       <div class="row justify-content-between py-3">
-        <div class="col-md-8 movie_partials">
+        <div class="col-lg-8 movie_partials">
 
         </div>
-        <div class="col-md-4">
+        <div class="col-lg-4 d-lg-block d-none">
           <%= render "movies/movie_side_panel" %>
         </div>
       </div>
       <div class="row justify-content-between pb-3">
-        <div class="col-md-8 text-center">
-          <button type="button" class="btn btn-outline-secondary moreMovies">More Movies</button>
+        <div class="col-lg-8 text-center">
+          <button type="button" class="btn btn-secondary moreMovies">More Movies</button>
         </div>
-        <div class="col-md-4"></div>
+        <div class="col-lg-4 d-lg-block d-none"></div>
       </div>
     </div>
   </div>

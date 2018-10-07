@@ -6,7 +6,7 @@ const LANGUAGE = "&language=en-US";
 const GENRES = BASEURL + GENRE + KEY + LANGUAGE;
 const MONTHS = {'01':'Jan','02':'Feb','03':'Mar','04':'Apr','05':'May','06':'Jun','07':'Jul','08':'Aug','09':'Sep','10':'Oct','11':'Nov','12':'Dec'};
 
-let movieIndexURL = BASEURL + DISCOVER + KEY + LANGUAGE + "&sort_by=popularity.desc&include_adult=false&include_video=false&page=1";
+let movieIndexURL = BASEURL + DISCOVER + KEY + LANGUAGE + "&sort_by=popularity.desc&include_adult=false&include_video=false&page=";
 
 let genreList = {};
 
@@ -102,7 +102,7 @@ const renderMovies = (movies) => {
         }
       }
     });
-    
+
     let movie_card_bot_row = document.createElement('div');
     movie_card_bot_row.classList.add('row', 'align-items-end');
 
@@ -162,9 +162,21 @@ $(document).ready(function(){
     });
   });
 
-  settings.url = movieIndexURL;
-  $.ajax(settings).done(function (api_movie_call) {
-    renderMovies(api_movie_call);
+  let page_max = 1;
+  function* api_call(page) {
+    while (page <= page_max) {
+      settings.url = movieIndexURL + page.toString();
+      $.ajax(settings).done(function (api_movie_call) {
+        page_max = api_movie_call.total_pages;
+        renderMovies(api_movie_call);
+      });
+      yield page++;
+    }
+  }
+  let nextPage = api_call(1);
+  nextPage.next();
+  $('.moreMovies').on('click', function(){
+    nextPage.next();
   });
   $('.title').on('click', function(){
     // front end filter and sort

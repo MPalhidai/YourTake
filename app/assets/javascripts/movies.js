@@ -6,7 +6,11 @@ const LANGUAGE = "&language=en-US";
 const GENRES = BASEURL + GENRE + KEY + LANGUAGE;
 const MONTHS = {'01':'Jan','02':'Feb','03':'Mar','04':'Apr','05':'May','06':'Jun','07':'Jul','08':'Aug','09':'Sep','10':'Oct','11':'Nov','12':'Dec'};
 
-let movieIndexURL = BASEURL + DISCOVER + KEY + LANGUAGE + "&sort_by=popularity.desc&include_adult=false&include_video=false&page=";
+// change all urls to dynamically generate from user dropdown menus
+let moviePopularityURL = BASEURL + DISCOVER + KEY + LANGUAGE + "&sort_by=popularity.desc&include_adult=false&include_video=false&page=";
+let movieReleaseURL = BASEURL + DISCOVER + KEY + LANGUAGE + "&sort_by=release_date.desc&include_adult=false&include_video=false&vote_count.gte=1&primary_release_year=2018&page=";
+let movieTitleURL = BASEURL + DISCOVER + KEY + LANGUAGE + "&sort_by=original_title.asc&include_adult=false&include_video=false&vote_count.gte=1&page=";
+let movieGenreURL = BASEURL + DISCOVER + KEY + LANGUAGE + "&sort_by=popularity.desc&include_adult=false&include_video=false&vote_count.gte=1&with_genres=28&page=";
 
 let genreList = {};
 
@@ -21,6 +25,8 @@ let settings = {
 
 const renderMovies = (movies) => {
   movies.results.forEach(function (movie) {
+
+    if (!movie.poster_path) return; // skip if missing poster for aesthetics. Could be an array of all used results and checked for all !undefined
 
     let movie_partials = document.querySelector('.movie_partials');
 
@@ -155,17 +161,17 @@ const renderMovies = (movies) => {
   });
 }
 
-$(document).ready(function(){
+$('#movies').ready(function(){
   $.ajax(settings).done(function (api_genre_call) {
     api_genre_call.genres.forEach(function(genre) {
-      genreList[genre.id] = genre.name
+      genreList[genre.id] = genre.name;
     });
   });
 
   let page_max = 1;
-  function* api_call(page) {
+  function* nextPage(page, url) {
     while (page <= page_max) {
-      settings.url = movieIndexURL + page.toString();
+      settings.url = url + page.toString();
       $.ajax(settings).done(function (api_movie_call) {
         page_max = api_movie_call.total_pages;
         renderMovies(api_movie_call);
@@ -173,18 +179,33 @@ $(document).ready(function(){
       yield page++;
     }
   }
-  let nextPage = api_call(1);
-  nextPage.next();
+
+  let pageUp = nextPage(1, moviePopularityURL);
+  pageUp.next();
+
+  function clearCards(div) {
+    let myNode = document.querySelector(div);
+    while (myNode.firstChild) {
+      myNode.removeChild(myNode.firstChild);
+    }
+  }
+
   $('.moreMovies').on('click', function(){
-    nextPage.next();
+    pageUp.next();
   });
   $('.title').on('click', function(){
-    // front end filter and sort
+    pageUp = nextPage(1, movieTitleURL);
+    clearCards('.movie_partials');
+    pageUp.next();
   });
   $('.releaseDate').on('click', function(){
-    // front end filter and sort
+    pageUp = nextPage(1, movieReleaseURL);
+    clearCards('.movie_partials');
+    pageUp.next();
   });
   $('.genre').on('click', function(){
-    // front end filter and sort
+    pageUp = nextPage(1, movieGenreURL);
+    clearCards('.movie_partials');
+    pageUp.next();
   });
 });

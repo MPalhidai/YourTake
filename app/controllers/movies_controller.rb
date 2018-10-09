@@ -5,13 +5,14 @@ class MoviesController < ApplicationController
   end
 
   def create
-    if movie
-      redirect_to movie_path(@movie)
+    @movie = Movie.find_by(external_id: params[:external_id])
+    if @movie
+      redirect_to @movie
     else
       @movie = Movie.new(movie_params)
       if @movie.save
         flash[:notice] = "New movie successfully created."
-        redirect_to movie_path(@movie)
+        redirect_to @movie
       else
         flash.now[:notice] = "Movie was not created."
       end
@@ -19,14 +20,10 @@ class MoviesController < ApplicationController
   end
 
   def show
-    movie
+    @movie = Movie.find(params[:id])
   end
 
   private
-
-  def movie
-    @movie = Movie.find_by(external_id: params[:external_id])
-  end
 
   def movie_params
     params.require(:movie).permit(:title, :external_id, :external_rating)

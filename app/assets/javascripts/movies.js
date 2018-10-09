@@ -49,10 +49,19 @@ const renderMovies = (movies) => {
     let movie_card_top_col_8 = document.createElement('div');
     movie_card_top_col_8.classList.add('col-8');
 
-    let movie_card_title = document.createElement('a');
-    movie_card_title.classList.add('movie_card_title');
+    let movie_card_title = document.createElement('button');
+    movie_card_title.classList.add('movie_card_title', 'btn', 'btn-link', 'p-0');
     movie_card_title.innerHTML = movie.title;
-    movie_card_title.href = `movies/create?variable=${JSON.stringify(movie)}`;
+
+    let jsonData = JSON.stringify({ "movie": { 'external_id': movie.id, 'title': movie.title } });
+    movie_card_title.addEventListener('click', () => {
+      $.ajax({
+        url: 'movies',
+        type: 'POST',
+        data: jsonData,
+        contentType: 'application/json'
+      })
+    });
 
     let movie_card_release_date = document.createElement('p');
     movie_card_release_date.classList.add('m-0');
@@ -79,7 +88,7 @@ const renderMovies = (movies) => {
 
     settings.url = BASEURL + `movie/${movie.id}/reviews`+ KEY + LANGUAGE + `&page=1`;
     $.ajax(settings).done(function (api_movie_review_call) {
-      // api_movie_review_call.results.for 2 then extend to all on page 1
+
       for (let i = 0; i < api_movie_review_call.results.length; i++) {
 
         let movie_card_rating_stars = document.createElement('span');

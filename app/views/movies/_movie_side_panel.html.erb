@@ -31,9 +31,10 @@
         <p class="mb-0">No Recent Movies Added</p>
         <br/>
       <% else %>
-        <% @movies.each do |movie| %>
+        <% @movies.reverse.each do |movie| %>
           <p class="float-left mb-0"><%= movie.title %></p>
-          <p class="float-right mb-0">movie.reviews.avg</p>
+          <p class="float-right mb-0"><%= movie.external_id %></p>
+          <!-- <p class="float-right mb-0">movie.reviews.avg</p> -->
           <br/>
         <% end %>
       <% end %>

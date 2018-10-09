@@ -138,6 +138,7 @@ const renderMovies = (movies) => {
     movie_card_view_more.addEventListener('click', () => {
       movie_card_rating_div_hidden.classList.remove('d-none');
     });
+    // change this to be able to view less reviews with jQuery hasClass or remove the button if hidden div has no child nodes
 
     let movie_card_leave_review = document.createElement('button');
     movie_card_leave_review.classList.add('movie_card_leave_review', 'mx-2', 'p-0', 'btn', 'btn-link');

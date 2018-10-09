@@ -16,7 +16,7 @@
 
         </div>
         <div class="col-lg-4 d-lg-block d-none">
-          <%= render "movies/movie_side_panel" %>
+          <%= render 'movies/movie_side_panel', collection: [@movies, @reviews] %>
         </div>
       </div>
       <div class="row justify-content-between pb-3">

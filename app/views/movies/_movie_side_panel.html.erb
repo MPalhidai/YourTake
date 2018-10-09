@@ -2,43 +2,41 @@
   <div class="row">
     <div class="col p-0">
       <h3  class="mb-3">Recent Reviews</h3>
-      <!-- filler -->
+      <!-- recently reviewed movies in this db -->
+      <!-- limit to three recent reviews -->
       <!-- last three reviews -->
       <!-- changed rating to stars -->
-      <p class="float-left mb-0">movie.review.comment</p>
-      <p class="float-right mb-0">movie.review.rating</p>
-      <br/>
-      <p class="mb-0">movie.title</p>
-      <p class="float-left mb-0">movie.review.comment</p>
-      <p class="float-right mb-0">movie.review.rating</p>
-      <br/>
-      <p class="mb-0">movie.title</p>
-      <p class="float-left mb-0">movie.review.comment</p>
-      <p class="float-right mb-0">movie.review.rating</p>
-      <br/>
-      <p class="mb-0">movie.title</p>
+      <% if @reviews.empty? %>
+        <p class="mb-0">No Recent Movie Reviews</p>
+        <br/>
+      <% else %>
+        <% @reviews.each do |review| %>
+        <!-- limit comment length and make it a link_to review show -->
+          <p class="float-left mb-0"><%= review.comment %></p>
+          <p class="float-right mb-0"><%= review.rating %></p>
+          <br/>
+          <p class="mb-0"><%= review.movie.title %></p>
+        <% end %>
+      <% end %>
       <%= link_to "View All Reviews", reviews_path, class: "float-right mt-3" %>
     </div>
   </div>
   <hr>
   <div class="row">
-    <!-- recently reviewed movies -->
-    <!-- last four reviewed movies -->
+    <!-- recently created movies in this db -->
+    <!-- limit to four recent movies -->
     <div class="col p-0">
       <h3 class="mb-3">Recent Movies</h3>
-      <!-- filler -->
-      <p class="float-left mb-0">movie.title</p>
-      <p class="float-right mb-0">movie.reviews.avg</p>
-      <br/>
-      <p class="float-left mb-0">movie.title</p>
-      <p class="float-right mb-0">movie.reviews.avg</p>
-      <br/>
-      <p class="float-left mb-0">movie.title</p>
-      <p class="float-right mb-0">movie.reviews.avg</p>
-      <br/>
-      <p class="float-left mb-0">movie.title</p>
-      <p class="float-right mb-0">movie.reviews.avg</p>
-      <br/>
+      <% if @movies.empty? %>
+        <p class="mb-0">No Recent Movies Added</p>
+        <br/>
+      <% else %>
+        <% @movies.each do |movie| %>
+          <p class="float-left mb-0"><%= movie.title %></p>
+          <p class="float-right mb-0">movie.reviews.avg</p>
+          <br/>
+        <% end %>
+      <% end %>
       <%= link_to "View All Movies", movies_path, class: "float-right mt-3" %>
     </div>
   </div>

@@ -49,9 +49,10 @@ const renderMovies = (movies) => {
     let movie_card_top_col_8 = document.createElement('div');
     movie_card_top_col_8.classList.add('col-8');
 
-    let movie_card_title = document.createElement('h3');
+    let movie_card_title = document.createElement('a');
     movie_card_title.classList.add('movie_card_title');
     movie_card_title.innerHTML = movie.title;
+    movie_card_title.href = `movies/create?variable=${JSON.stringify(movie)}`;
 
     let movie_card_release_date = document.createElement('p');
     movie_card_release_date.classList.add('m-0');

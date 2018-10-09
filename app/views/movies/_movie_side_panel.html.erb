@@ -10,10 +10,10 @@
         <p class="mb-0">No Recent Movie Reviews</p>
         <br/>
       <% else %>
-        <% @reviews.each do |review| %>
+        <% @reviews.reverse[0...3].each do |review| %>
         <!-- limit comment length and make it a link_to review show -->
           <p class="float-left mb-0"><%= review.comment %></p>
-          <p class="float-right mb-0"><%= review.rating %></p>
+          <p class="float-right mb-0 stars-container stars-<%= review.rating.to_s %>">★★★★★</p>
           <br/>
           <p class="mb-0"><%= review.movie.title %></p>
         <% end %>
@@ -38,7 +38,7 @@
           <br/>
         <% end %>
       <% end %>
-      <%= link_to "View All Movies", movies_path, class: "float-right mt-3" %>
+      <%= link_to "View All Movies", root_path, class: "float-right mt-3" %>
     </div>
   </div>
 </div>

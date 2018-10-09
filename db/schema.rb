@@ -17,7 +17,8 @@ ActiveRecord::Schema.define(version: 2018_09_28_234024) do
 
   create_table "movies", force: :cascade do |t|
     t.string "title"
-    t.string "external_id"
+    t.integer "external_id"
+    t.float "external_rating"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

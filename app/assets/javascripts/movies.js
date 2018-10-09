@@ -53,7 +53,7 @@ const renderMovies = (movies) => {
     movie_card_title.classList.add('movie_card_title', 'btn', 'btn-link', 'p-0');
     movie_card_title.innerHTML = movie.title;
 
-    let jsonData = JSON.stringify({ "movie": { 'external_id': movie.id, 'title': movie.title } });
+    let jsonData = JSON.stringify({ "movie": { 'external_rating': movie.vote_average, 'external_id': movie.id, 'title': movie.title } });
     movie_card_title.addEventListener('click', () => {
       $.ajax({
         url: 'movies',

@@ -31,10 +31,10 @@
         <p class="mb-0">No Recent Movies Added</p>
         <br/>
       <% else %>
-        <% @movies.reverse.each do |movie| %>
+        <% @movies.reverse[0...4].each do |movie| %>
           <p class="float-left mb-0"><%= movie.title %></p>
-          <p class="float-right mb-0"><%= movie.external_id %></p>
-          <!-- <p class="float-right mb-0">movie.reviews.avg</p> -->
+          <!-- change external rating to this dbs review rating when reviews exist -->
+          <p class="float-right mb-0 stars-container stars-<%= ((movie.external_rating*10).to_i).to_s %>">★★★★★</p>
           <br/>
         <% end %>
       <% end %>

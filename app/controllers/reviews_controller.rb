@@ -2,14 +2,16 @@ class ReviewsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :destroy]
 
   def new
-    @review = Review.new
+    movie
+    @review = current_user.reviews.build
   end
 
   def create
-    @review = current_user.review.build(review_params)
-    if @review
+    movie
+    @review = current_user.reviews.build(review_params)
+    if @review.save
       flash[:notice] = "Review successfully posted ${@review.movie.title}."
-      redirect_to movie_path(@review.movie.id)
+      redirect_to @movie
     else
       flash[:notice] = "Review unsuccessfully saved. Please try again."
       render :new
@@ -33,6 +35,10 @@ class ReviewsController < ApplicationController
 
   def review
     @review = Review.find(params[:id])
+  end
+
+  def movie
+    @movie = Movie.find_by(external_id: params[:external_id])
   end
 
   def review_params

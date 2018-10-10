@@ -1,11 +1,11 @@
 <div class="row justify-content-center py-5">
   <div class="col-lg-8 col-md-10">
     <h1><%= @movie.title %></h1>
-    <h6><%= @movie.external_id %></h6>
-    <h6><%= @movie.external_rating %></h6>
+    <h6>TMDb id: <%= @movie.external_id %></h6>
+    <h6>TMDb rating: <%= @movie.external_rating %></h6>
     <h2>Reviews</h2>
     <hr>
-    <!-- render review partials with full comments -->
+    <!-- render review partials with full comments in reverse potentially paginate -->
     <%= @movie.reviews %>
   </div>
 </div>

@@ -1,10 +1,8 @@
 <div class="movie_side_panel border border-secondary p-3">
   <div class="row">
     <div class="col p-0">
-      <h3  class="mb-3">Recent Reviews</h3>
+      <h3 class="mb-3">Recent Reviews</h3>
       <!-- recently reviewed movies in this db -->
-      <!-- limit to three recent reviews -->
-      <!-- last three reviews -->
       <!-- changed rating to stars -->
       <% if @reviews.empty? %>
         <p class="mb-0">No Recent Movie Reviews</p>
@@ -24,7 +22,6 @@
   <hr>
   <div class="row">
     <!-- recently created movies in this db -->
-    <!-- limit to four recent movies -->
     <div class="col p-0">
       <h3 class="mb-3">Recent Movies</h3>
       <% if @movies.empty? %>
@@ -32,7 +29,11 @@
         <br/>
       <% else %>
         <% @movies.reverse[0...4].each do |movie| %>
-          <p class="float-left mb-0"><%= movie.title %></p>
+          <% if movie.title.length > 25 %>
+            <p class="float-left mb-0"><%= movie.title[0..22] %>...</p>
+          <% else %>
+            <p class="float-left mb-0"><%= movie.title %></p>
+          <% end %>
           <!-- change external rating to this dbs review rating when reviews exist -->
           <p class="float-right mb-0 stars-container stars-<%= ((movie.external_rating*10).to_i).to_s %>">★★★★★</p>
           <br/>

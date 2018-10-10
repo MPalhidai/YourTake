@@ -1,16 +1,16 @@
 const BASEURL = "https://api.themoviedb.org/3/";
 const KEY = "?api_key=b93dbe1063e7a3c72594bd72ccddee56";
-const DISCOVER = "discover/movie";
 const GENRE = "genre/movie/list";
 const LANGUAGE = "&language=en-US";
+const DISCOVER = "discover/movie" + KEY + LANGUAGE;
 const GENRES = BASEURL + GENRE + KEY + LANGUAGE;
 const MONTHS = {'01':'Jan','02':'Feb','03':'Mar','04':'Apr','05':'May','06':'Jun','07':'Jul','08':'Aug','09':'Sep','10':'Oct','11':'Nov','12':'Dec'};
 
 // change all urls to dynamically generate from user dropdown menus
-let moviePopularityURL = BASEURL + DISCOVER + KEY + LANGUAGE + "&sort_by=popularity.desc&include_adult=false&include_video=false&page=";
-let movieReleaseURL = BASEURL + DISCOVER + KEY + LANGUAGE + "&sort_by=release_date.desc&include_adult=false&include_video=false&vote_count.gte=1&primary_release_year=2018&page=";
-let movieTitleURL = BASEURL + DISCOVER + KEY + LANGUAGE + "&sort_by=original_title.asc&include_adult=false&include_video=false&vote_count.gte=1&page=";
-let movieGenreURL = BASEURL + DISCOVER + KEY + LANGUAGE + "&sort_by=popularity.desc&include_adult=false&include_video=false&vote_count.gte=1&with_genres=28&page=";
+let moviePopularityURL = BASEURL + DISCOVER + "&sort_by=popularity.desc&include_adult=false&include_video=false&page=";
+let movieReleaseURL = BASEURL + DISCOVER + "&sort_by=release_date.desc&include_adult=false&include_video=false&vote_count.gte=1&primary_release_year=2018&page=";
+let movieTitleURL = BASEURL + DISCOVER + "&sort_by=original_title.asc&include_adult=false&include_video=false&vote_count.gte=1&page=";
+let movieGenreURL = BASEURL + DISCOVER + "&sort_by=popularity.desc&include_adult=false&include_video=false&vote_count.gte=1&with_genres=28&page=";
 
 let genreList = {};
 
@@ -53,12 +53,12 @@ const renderMovies = (movies) => {
     movie_card_title.classList.add('movie_card_title', 'btn', 'btn-link', 'p-0');
     movie_card_title.innerHTML = movie.title;
 
-    let jsonData = JSON.stringify({ "movie": { 'external_rating': movie.vote_average, 'external_id': movie.id, 'title': movie.title } });
+    let movieData = JSON.stringify({ "movie": { 'external_rating': movie.vote_average, 'external_id': movie.id, 'title': movie.title } });
     movie_card_title.addEventListener('click', () => {
       $.ajax({
         url: 'movies',
         type: 'POST',
-        data: jsonData,
+        data: movieData,
         contentType: 'application/json'
       })
     });
@@ -133,16 +133,20 @@ const renderMovies = (movies) => {
     movie_card_bot_col_8.classList.add('col-8');
 
     let movie_card_view_more = document.createElement('button');
-    movie_card_view_more.classList.add('movie_card_view_more', 'mr-2', 'p-0', 'btn', 'btn-link');
+    movie_card_view_more.classList.add('movie_card_view_more', 'mr-3', 'p-0', 'btn', 'btn-link');
     movie_card_view_more.innerHTML = "View More";
     movie_card_view_more.addEventListener('click', () => {
       movie_card_rating_div_hidden.classList.remove('d-none');
     });
     // change this to be able to view less reviews with jQuery hasClass or remove the button if hidden div has no child nodes
 
-    let movie_card_leave_review = document.createElement('button');
-    movie_card_leave_review.classList.add('movie_card_leave_review', 'mx-2', 'p-0', 'btn', 'btn-link');
+    let movie_card_leave_review = document.createElement('a');
+    movie_card_leave_review.classList.add('movie_card_leave_review', 'mr-3', 'p-0', 'btn', 'btn-link');
     movie_card_leave_review.innerHTML = "Leave A Review";
+
+    reviewData = JSON.stringify({ 'external_id': movie.id, 'title': movie.title });
+    movie_card_leave_review.href = `reviews/new?${reviewData}`;
+
     // CHANGE ABOVE movie_card_leave_review.href = movie/review; possibly open review form modal
 
     movie_card_cover.appendChild(movie_card_cover_img);

@@ -6,6 +6,11 @@
     <h2>Reviews</h2>
     <hr>
     <!-- render review partials with full comments in reverse potentially paginate -->
-    <%= @movie.reviews %>
+    <% @movie.reviews.each do |review| %>
+      <p><%= review.user %></p>
+      <p><%= review.rating %></p>
+      <p><%= review.comment %></p>
+      <hr>
+    <% end %>
   </div>
 </div>

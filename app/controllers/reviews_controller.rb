@@ -2,13 +2,13 @@ class ReviewsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :destroy]
 
   def new
-    movie
     @review = current_user.reviews.build
+    @review.movie = movie
   end
 
   def create
-    movie
     @review = current_user.reviews.build(review_params)
+    @review.movie = movie
     if @review.save
       flash[:notice] = "Review successfully posted ${@review.movie.title}."
       redirect_to @movie
@@ -42,7 +42,7 @@ class ReviewsController < ApplicationController
   end
 
   def review_params
-    params.require(:review).permit(:comment, :rating)
+    params.require(:review).permit(:comment, :rating, :external_id)
   end
 
 end

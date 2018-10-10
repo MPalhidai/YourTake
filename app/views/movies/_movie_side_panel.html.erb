@@ -30,9 +30,13 @@
       <% else %>
         <% @movies.reverse[0...4].each do |movie| %>
           <% if movie.title.length > 25 %>
-            <p class="float-left mb-0"><%= movie.title[0..22] %>...</p>
+            <%= link_to movie_path(movie.id) do %>
+              <p class="float-left mb-0"><%= movie.title[0..22] %>...</p>
+            <% end %>
           <% else %>
-            <p class="float-left mb-0"><%= movie.title %></p>
+            <%= link_to movie_path(movie.id) do %>
+              <p class="float-left mb-0"><%= movie.title %></p>
+            <% end %>
           <% end %>
           <!-- change external rating to this dbs review rating when reviews exist -->
           <p class="float-right mb-0 stars-container stars-<%= ((movie.external_rating*10).to_i).to_s %>">★★★★★</p>

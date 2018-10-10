@@ -60,7 +60,7 @@ const renderMovies = (movies) => {
         type: 'POST',
         data: movieData,
         contentType: 'application/json'
-      })
+      });
     });
 
     let movie_card_release_date = document.createElement('p');
@@ -144,7 +144,7 @@ const renderMovies = (movies) => {
     movie_card_leave_review.classList.add('movie_card_leave_review', 'mr-3', 'p-0', 'btn', 'btn-link');
     movie_card_leave_review.innerHTML = "Leave A Review";
 
-    reviewData = JSON.stringify({ 'external_id': movie.id, 'title': movie.title });
+    reviewData = JSON.stringify({ 'external_id': movie.id });
     movie_card_leave_review.href = `reviews/new?${reviewData}`;
 
     // CHANGE ABOVE movie_card_leave_review.href = movie/review; possibly open review form modal

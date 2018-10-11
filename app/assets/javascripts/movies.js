@@ -132,6 +132,56 @@ const renderMovies = (movies) => {
     let movie_card_bot_col_8 = document.createElement('div');
     movie_card_bot_col_8.classList.add('col-8');
 
+
+
+    // form
+    let movie_card_form_hidden = document.createElement('form');
+    movie_card_form_hidden.classList.add('movie_card_form_hidden', 'py-2', 'd-none', `form-${movie.id}`);
+    // movie_card_form_hidden.name = 'review';
+    // movie_card_form_hidden.action = 'reviews';
+    // movie_card_form_hidden.method = 'post';
+    let movie_card_form_rating_tag = document.createElement('p');
+    movie_card_form_rating_tag.classList.add('movie_card_form_rating_tag');
+    movie_card_form_rating_tag.innerHTML = 'Rating: (0-100)';
+    let movie_card_form_rating = document.createElement('input');
+    movie_card_form_rating.classList.add('movie_card_form_rating', 'mb-2');
+    movie_card_form_rating.setAttribute("type", "number");
+    movie_card_form_rating.min = 0;
+    movie_card_form_rating.max = 100;
+    movie_card_form_rating.placeholder = '100';
+    movie_card_form_rating.name = 'rating';
+    let movie_card_form_comment_tag = document.createElement('p');
+    movie_card_form_comment_tag.classList.add('movie_card_form_comment_tag');
+    movie_card_form_comment_tag.innerHTML = 'Comment: ';
+    let movie_card_form_comment = document.createElement('textarea');
+    movie_card_form_comment.classList.add('movie_card_form_comment', 'mb-2');
+    movie_card_form_comment.rows = 4;
+    movie_card_form_comment.cols = 50;
+    movie_card_form_comment.name = 'comment';
+    movie_card_form_comment.placeholder = `${movie.title} was awesome!!!`;
+    let movie_card_form_movie_id = document.createElement('input');
+    movie_card_form_movie_id.classList.add('movie_card_form_movie_id');
+    movie_card_form_movie_id.setAttribute("type", "hidden");
+    movie_card_form_movie_id.value = movie.id;
+    movie_card_form_movie_id.name = 'external_id';
+    let movie_card_form_submit = document.createElement('button');
+    movie_card_form_submit.classList.add('movie_card_form_submit', 'btn', 'btn-outline-info');
+    // movie_card_form_submit.setAttribute("type", "submit");
+    movie_card_form_submit.innerHTML = "Submit";
+
+    movie_card_form_submit.addEventListener('click', () => {
+      let reviewData = getFormDataAsJSON(movie.id);
+      $.ajax({
+        url: 'reviews',
+        type: 'POST',
+        data: reviewData,
+        contentType: 'application/json'
+      });
+    });
+    // form
+
+
+
     let movie_card_view_more = document.createElement('button');
     movie_card_view_more.classList.add('movie_card_view_more', 'mr-3', 'p-0', 'btn', 'btn-link');
     movie_card_view_more.innerHTML = "View More";
@@ -140,14 +190,12 @@ const renderMovies = (movies) => {
     });
     // change this to be able to view less reviews with jQuery hasClass or remove the button if hidden div has no child nodes
 
-    let movie_card_leave_review = document.createElement('a');
+    let movie_card_leave_review = document.createElement('button');
     movie_card_leave_review.classList.add('movie_card_leave_review', 'mr-3', 'p-0', 'btn', 'btn-link');
     movie_card_leave_review.innerHTML = "Leave A Review";
-
-    reviewData = JSON.stringify({ 'external_id': movie.id });
-    movie_card_leave_review.href = `reviews/new?${reviewData}`;
-
-    // CHANGE ABOVE movie_card_leave_review.href = movie/review; possibly open review form modal
+    movie_card_leave_review.addEventListener('click', () => {
+      movie_card_form_hidden.classList.remove('d-none');
+    });
 
     movie_card_cover.appendChild(movie_card_cover_img);
 
@@ -164,6 +212,17 @@ const renderMovies = (movies) => {
     movie_card_bot_col_8.appendChild(movie_card_view_more);
     movie_card_bot_col_8.appendChild(movie_card_leave_review);
 
+    // form
+    movie_card_form_hidden.appendChild(movie_card_form_rating_tag);
+    movie_card_form_hidden.appendChild(movie_card_form_rating);
+    movie_card_form_hidden.appendChild(movie_card_form_comment_tag);
+    movie_card_form_hidden.appendChild(movie_card_form_comment);
+    movie_card_form_hidden.appendChild(movie_card_form_movie_id);
+    movie_card_form_hidden.appendChild(document.createElement('br'));
+    movie_card_form_hidden.appendChild(movie_card_form_submit);
+    movie_card_bot_col_8.appendChild(movie_card_form_hidden);
+    // form
+
     movie_card_top_row.appendChild(movie_card_top_col_4);
     movie_card_top_row.appendChild(movie_card_top_col_8);
     movie_card_bot_row.appendChild(movie_card_bot_col_4);
@@ -174,6 +233,20 @@ const renderMovies = (movies) => {
 
     movie_partials.appendChild(movie_card);
   });
+}
+
+function objectifyForm(formArray) {
+  let returnArray = {};
+  for (let i = 0; i < formArray.length; i++){
+    returnArray[formArray[i]['name']] = formArray[i]['value'];
+  }
+  return returnArray;
+}
+
+function getFormDataAsJSON(id) {
+  // { review: { rating: 100, comment: 'Great!', external_id: 11111 }}
+  let obj = objectifyForm( $( `.form-${id}` ).serializeArray() );
+  return JSON.stringify({ 'review': obj });
 }
 
 $('#movies').ready(function(){

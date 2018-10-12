@@ -63,7 +63,10 @@ const renderMovies = (movies) => {
       $.ajax({
         url: 'movies',
         type: 'POST',
-        data: movieData
+        data: movieData,
+        headers: {
+          'Content-Type': 'application/json'
+        }
       });
     });
 
@@ -148,7 +151,7 @@ const renderMovies = (movies) => {
     let movie_card_leave_review = document.createElement('a');
     movie_card_leave_review.classList.add('movie_card_leave_review', 'mr-3', 'p-0', 'btn', 'btn-link');
     movie_card_leave_review.innerHTML = "Leave A Review";
-    movie_card_leave_review.href = `reviews/new?external_id:${movie.id}`;
+    movie_card_leave_review.href = `reviews/new?review[external_id]=${movie.id}`;
 
     movie_card_cover.appendChild(movie_card_cover_img);
 
@@ -179,14 +182,6 @@ const renderMovies = (movies) => {
 
 $(document).ready(function(){
   if($('body.movies.index').length) {
-    $(function(){
-      // always pass csrf tokens on ajax calls
-      $.ajaxSetup({
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-    });
 
     $.ajax(settings).done(function (api_genre_call) {
       api_genre_call.genres.forEach(function(genre) {

@@ -2,12 +2,13 @@ class ReviewsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :destroy]
 
   def new
-    @review = Review.new(external_id: params[:external_id])
+    find_movie
+    @review = Review.new(params[:external_id])
   end
 
   def create
+    find_movie
     @review = current_user.reviews.build(review_params)
-
     if @review.save
       flash[:notice] = "Review successfully posted for #{@review.movie.title}."
       redirect_to @movie

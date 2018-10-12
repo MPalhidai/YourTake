@@ -51,7 +51,12 @@ const renderMovies = (movies) => {
 
     let movie_card_title = document.createElement('button');
     movie_card_title.classList.add('movie_card_title', 'btn', 'btn-link', 'p-0');
-    movie_card_title.innerHTML = movie.title;
+    if (movie.title.length > 35) {
+      movie_card_title.innerHTML = movie.title.substring(0, 32) + "...";
+    } else {
+      movie_card_title.innerHTML = movie.title;
+    }
+
 
     let movieData = JSON.stringify({ "movie": { 'external_rating': movie.vote_average, 'external_id': movie.id, 'title': movie.title } });
     movie_card_title.addEventListener('click', () => {
@@ -59,7 +64,10 @@ const renderMovies = (movies) => {
         url: 'movies',
         type: 'POST',
         data: movieData,
-        contentType: 'application/json'
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': token
+        }
       });
     });
 
@@ -100,11 +108,17 @@ const renderMovies = (movies) => {
         movie_card_rating_partial.href = api_movie_review_call.results[i].url;
 
         let long_comment = api_movie_review_call.results[i].content;
-        if (long_comment.length > 35) {
+        let long_name = api_movie_review_call.results[i].author;
+        if ((long_comment + long_name).length > 35) {
           let short_comment = long_comment.substring(0, 32) + "...";
-          movie_card_rating_partial.innerHTML = ` ${short_comment} - ${api_movie_review_call.results[i].author}`;
+          if ((short_comment + long_name).length > 35) {
+            let short_name = long_name.substring(0, 10) + "...";
+            movie_card_rating_partial.innerHTML = ` ${short_comment} - ${short_name}`;
+          } else {
+            movie_card_rating_partial.innerHTML = ` ${short_comment} - ${long_name}`;
+          }
         } else {
-          movie_card_rating_partial.innerHTML = ` ${long_comment} - ${api_movie_review_call.results[i].author}`;
+          movie_card_rating_partial.innerHTML = ` ${long_comment} - ${long_name}`;
         }
 
         if (i < 2) {
@@ -175,7 +189,10 @@ const renderMovies = (movies) => {
         url: 'reviews',
         type: 'POST',
         data: reviewData,
-        contentType: 'application/json'
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': token
+        }
       });
     });
     // form
@@ -233,12 +250,18 @@ const renderMovies = (movies) => {
 
     movie_partials.appendChild(movie_card);
   });
-}
+};
+
+let token = $('meta[name=csrf-token]').attr('content');
 
 function objectifyForm(formArray) {
   let returnArray = {};
   for (let i = 0; i < formArray.length; i++){
-    returnArray[formArray[i]['name']] = formArray[i]['value'];
+    if (formArray[i]['name'] == 'comment') { // serializeArray returns ints as strings
+      returnArray[formArray[i]['name']] = formArray[i]['value'];
+    } else {
+      returnArray[formArray[i]['name']] = Number(formArray[i]['value']);
+    }
   }
   return returnArray;
 }
@@ -250,6 +273,7 @@ function getFormDataAsJSON(id) {
 }
 
 $('#movies').ready(function(){
+
   $.ajax(settings).done(function (api_genre_call) {
     api_genre_call.genres.forEach(function(genre) {
       genreList[genre.id] = genre.name;

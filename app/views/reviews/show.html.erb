@@ -1,17 +1,20 @@
 <div class="row justify-content-center py-5">
-  <div class="col-lg-8 col-md-10 border rounded">
-    <div class="row justify-content-between py-3">
-      <div class="col bigger">
-        <p><%= @review.movie.title %></p>
-        <p><%= @review.user.name %></p>
+  <div class="col-lg-8 col-md-10">
+    <div class="border rounded mb-3">
+      <div class="row justify-content-between py-3">
+        <div class="col bigger">
+          <p class="mb-1"><%= @review.movie.title %></p>
+          <p class="mb-1"><%= @review.user.name %></p>
+        </div>
+        <div class="col text-right bigger">
+          <p class="stars-container stars-<%= @review.rating.to_s %>">★★★★</p>
+        </div>
       </div>
-      <div class="col text-right bigger">
-        <p class="stars-container stars-<%= @review.rating.to_s %>">★★★★</p>
-      </div>
-    </div>
-    <div class="row py-3">
-      <div class="col">
-        <p class="my-5"><%= @review.comment %></p>
+      <hr class="m-0">
+      <div class="row py-3">
+        <div class="col">
+          <p class="mb-1"><%= @review.comment %></p>
+        </div>
       </div>
     </div>
   </div>

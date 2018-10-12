@@ -3,15 +3,16 @@ class ReviewsController < ApplicationController
 
   def new
     @review = current_user.reviews.build(review_params)
-    @movie = Movie.find_by(external_id: @review.external_id)
+    find_movie
   end
 
   def create
-    find_movie
     @review = current_user.reviews.build(review_params)
+    find_movie
+    
     if @review.save
       flash[:notice] = "Review successfully posted for #{@review.movie.title}."
-      redirect_to movie_path(@review.movie_id)
+      redirect_to @movie
     else
       flash[:notice] = "Review unsuccessfully saved. Please try again."
       redirect_to root_path
@@ -34,7 +35,7 @@ class ReviewsController < ApplicationController
   private
 
   def find_movie
-    @movie ||= Movie.find_by(external_id: params[:external_id])
+    @movie = Movie.find_by(external_id: @review.external_id)
   end
 
   def review

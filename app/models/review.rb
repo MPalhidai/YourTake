@@ -7,4 +7,6 @@ class Review < ApplicationRecord
   validates :external_id, presence: true
   validates :user_id, presence: true
   validates :movie_id, presence: true
+
+  attr_accessor :external_id
 end

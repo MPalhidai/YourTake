@@ -1,5 +1,10 @@
 class ReviewsController < ApplicationController
-  before_action :authenticate_user!, only: [:create, :destroy]
+  before_action :authenticate_user!, only: [:new, :create, :destroy]
+
+  def new
+    @review = Review.new
+    find_movie
+  end
 
   def create
     @review = current_user.reviews.build(review_params)
@@ -10,6 +15,7 @@ class ReviewsController < ApplicationController
       redirect_to @movie
     else
       flash[:notice] = "Review unsuccessfully saved. Please try again."
+      redirect_to movies_path
     end
   end
 
@@ -29,7 +35,7 @@ class ReviewsController < ApplicationController
   private
 
   def find_movie
-    @movie ||= Movie.find_by(external_id: params[external_id])
+    @movie ||= Movie.find_by(external_id: params[:external_id])
   end
 
   def review
@@ -37,7 +43,7 @@ class ReviewsController < ApplicationController
   end
 
   def review_params
-    params.require(:review).permit(:comment, :rating, :external_id)
+    params.require(:review).permit(:comment, :rating, :external_id, :movie_id)
   end
 
 end

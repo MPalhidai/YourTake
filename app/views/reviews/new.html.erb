@@ -1,0 +1,28 @@
+<div class="row justify-content-center py-5">
+  <div class="col-lg-6 col-md-8 col-sm-10 border border-rounded">
+    <%= form_for @review do |f| %>
+
+    <div class="field py-3">
+      <%= f.label :rating, "Rating: (0-100)" %>
+      <br/>
+      <%= f.number_field(:rating, class: 'form-control', placeholder: "100") %>
+    </div>
+
+    <div class="field py-3">
+      <%= f.label :comment, "Comment:" %>
+      <br/>
+      <%= f.text_area(:comment, class: 'form-control', placeholder: "This movie was awesome!") %>
+    </div>
+
+    <div class="field py-3">
+      <%#= f.hidden_field :movie_id, value: @movie.id %>
+      <%= f.hidden_field :external_id, value: params[:external_id] %>
+    </div>
+
+    <div class="actions py-3">
+      <%= f.submit "Comment", class: "form-control btn btn-success btn-sm" %>
+    </div>
+
+    <% end %>
+  </div>
+</div>

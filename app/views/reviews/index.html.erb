@@ -1,13 +1,25 @@
 <div class="row justify-content-center py-5">
   <div class="col-lg-8 col-md-10">
     <h1>Recent Reviews</h1>
+    <hr>
     <% @reviews.reverse.each do |review| %>
-      <p><%= review.movie.title %></p>
-      <p><%= review.movie.external_rating %></p>
-      <p><%= review.user %></p>
-      <p><%= review.rating %></p>
-      <p><%= review.comment %></p>
-      <hr>
+    <div class="border rounded mb-3">
+      <div class="row justify-content-between py-3">
+        <div class="col bigger">
+          <p class="mb-1"><%= review.movie.title %></p>
+          <p class="mb-1"><%= review.user.name %></p>
+        </div>
+        <div class="col text-right bigger">
+          <p class="stars-container stars-<%= review.rating.to_s %>">★★★★</p>
+        </div>
+      </div>
+      <hr class="m-0">
+      <div class="row py-3">
+        <div class="col">
+          <p class="mb-1"><%= review.comment %></p>
+        </div>
+      </div>
+    </div>
     <% end %>
   </div>
 </div>

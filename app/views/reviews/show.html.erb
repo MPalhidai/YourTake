@@ -1,12 +1,12 @@
 <div class="row justify-content-center py-5">
-  <div class="col-lg-8 col-md-10 border border-rounded">
+  <div class="col-lg-8 col-md-10 border rounded">
     <div class="row justify-content-between py-3">
       <div class="col bigger">
         <p><%= @review.movie.title %></p>
         <p><%= @review.user.name %></p>
       </div>
       <div class="col text-right bigger">
-        <p class="stars-container stars-<%= @review.rating.to_s %>">★★★★★</p>
+        <p class="stars-container stars-<%= @review.rating.to_s %>">★★★★</p>
       </div>
     </div>
     <div class="row py-3">

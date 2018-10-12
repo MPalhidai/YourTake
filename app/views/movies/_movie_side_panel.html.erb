@@ -9,11 +9,18 @@
         <br/>
       <% else %>
         <% @reviews.reverse[0...3].each do |review| %>
-        <!-- limit comment length and make it a link_to review show -->
-          <p class="float-left mb-0"><%= review.comment %></p>
+          <% if review.comment.length > 35 %>
+            <%= link_to review_path(review.id) do %>
+              <p class="float-left mb-0"><%= review.comment[0..32] %>...</p>
+            <% end %>
+          <% else %>
+            <%= link_to review_path(review.id) do %>
+              <p class="float-left mb-0"><%= review.comment %></p>
+            <% end %>
+          <% end %>
           <p class="float-right mb-0 stars-container stars-<%= review.rating.to_s %>">★★★★</p>
           <br/>
-          <p class="mb-0"><%= review.movie.title %></p>
+          <p class="mb-2"><%= review.movie.title %></p>
         <% end %>
       <% end %>
       <%= link_to "View All Reviews", reviews_path, class: "float-right mt-3" %>

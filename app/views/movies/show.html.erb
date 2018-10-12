@@ -9,12 +9,12 @@
   <div class="col-lg-8 col-md-10">
     <h2>Reviews</h2>
     <hr>
-    <!-- render review partials with full comments in reverse potentially paginate -->
+    <!-- paginate -->
     <% @movie.reviews.each do |review| %>
-      <p class="float-left mb-0"><%= review.user %></p>
-      <p class="float-right mb-0 stars-container stars-<%= review.rating.to_s %>">★★★★★</p>
+      <p class="float-left"><%= review.user.name %></p>
+      <p class="float-right stars-container stars-<%= review.rating.to_s %>">★★★★★</p>
       <br/>
-      <p class="mb-0"><%= review.comment %></p>
+      <p class="my-3"><%= review.comment %></p>
       <hr>
     <% end %>
   </div>

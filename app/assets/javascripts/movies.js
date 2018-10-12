@@ -151,7 +151,6 @@ const renderMovies = (movies) => {
     let movie_card_leave_review = document.createElement('a');
     movie_card_leave_review.classList.add('movie_card_leave_review', 'mr-3', 'p-0', 'btn', 'btn-link');
     movie_card_leave_review.innerHTML = "Leave A Review";
-    let reviewData = JSON.stringify({ "review": { 'external_id': movie.id } });
     movie_card_leave_review.href = `reviews/new?review[external_id]=${movie.id}`;
 
     movie_card_cover.appendChild(movie_card_cover_img);

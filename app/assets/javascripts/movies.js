@@ -31,7 +31,7 @@ const renderMovies = (movies) => {
     let movie_partials = document.querySelector('.movie_partials');
 
     let movie_card = document.createElement('div');
-    movie_card.classList.add('movie_card', 'border', 'border-secondary', 'p-3', 'mb-3');
+    movie_card.classList.add('movie_card', 'border', 'border-secondary', 'pt-3', 'px-3', 'pb-0', 'mb-3');
 
     let movie_card_top_row = document.createElement('div');
     movie_card_top_row.classList.add('row', 'justify-content-between');
@@ -125,7 +125,7 @@ const renderMovies = (movies) => {
     });
 
     let movie_card_bot_row = document.createElement('div');
-    movie_card_bot_row.classList.add('row', 'align-items-end');
+    movie_card_bot_row.classList.add('row', 'align-items-center');
 
     let movie_card_bot_col_4 = document.createElement('div');
     movie_card_bot_col_4.classList.add('col-4', 'movie_card_rating_avg', 'text-center');
@@ -148,7 +148,7 @@ const renderMovies = (movies) => {
     let movie_card_leave_review = document.createElement('a');
     movie_card_leave_review.classList.add('movie_card_leave_review', 'mr-3', 'p-0', 'btn', 'btn-link');
     movie_card_leave_review.innerHTML = "Leave A Review";
-    movie_card_leave_review.href = `reviews/new?{'external_id':${movie.id}}`;
+    movie_card_leave_review.href = `reviews/new?external_id:${movie.id}`;
 
     movie_card_cover.appendChild(movie_card_cover_img);
 
@@ -177,33 +177,12 @@ const renderMovies = (movies) => {
   });
 };
 
-
-
-function objectifyForm(formArray) {
-  let returnArray = {};
-  for (let i = 0; i < formArray.length; i++){
-    if (formArray[i]['name'] == 'comment') { // serializeArray returns ints as strings
-      returnArray[formArray[i]['name']] = formArray[i]['value'];
-    } else {
-      returnArray[formArray[i]['name']] = Number(formArray[i]['value']);
-    }
-  }
-  return returnArray;
-}
-
-function getFormDataAsJSON(id) {
-  // { review: { rating: 100, comment: 'Great!', external_id: 11111 }}
-  let obj = objectifyForm( $( `.form-${id}` ).serializeArray() );
-  return JSON.stringify({ 'review': obj });
-}
-
 $(document).ready(function(){
   if($('body.movies.index').length) {
     $(function(){
       // always pass csrf tokens on ajax calls
       $.ajaxSetup({
         headers: {
-          'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content'),
           'Content-Type': 'application/json'
         }
       });

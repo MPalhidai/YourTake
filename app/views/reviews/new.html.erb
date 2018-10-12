@@ -15,8 +15,8 @@
     </div>
 
     <div class="field py-3">
-      <%#= f.hidden_field :movie_id, value: @movie.id %>
-      <%= f.hidden_field :external_id, value: params[:external_id] %>
+      <%= f.hidden_field(:movie_id, value: 2) %>
+      <%= f.hidden_field(:external_id, placeholder: params[:external_id]) %>
     </div>
 
     <div class="actions p-5">

@@ -2,20 +2,18 @@ class ReviewsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :destroy]
 
   def new
-    @review = Review.new
-    find_movie
+    @review = Review.new(external_id: params[:external_id])
   end
 
   def create
     @review = current_user.reviews.build(review_params)
-    @review.movie_id = find_movie
 
     if @review.save
       flash[:notice] = "Review successfully posted for #{@review.movie.title}."
       redirect_to @movie
     else
       flash[:notice] = "Review unsuccessfully saved. Please try again."
-      redirect_to movies_path
+      redirect_to root_path
     end
   end
 

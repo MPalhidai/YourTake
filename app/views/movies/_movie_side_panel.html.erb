@@ -11,7 +11,7 @@
         <% @reviews.reverse[0...3].each do |review| %>
         <!-- limit comment length and make it a link_to review show -->
           <p class="float-left mb-0"><%= review.comment %></p>
-          <p class="float-right mb-0 stars-container stars-<%= review.rating.to_s %>">★★★★★</p>
+          <p class="float-right mb-0 stars-container stars-<%= review.rating.to_s %>">★★★★</p>
           <br/>
           <p class="mb-0"><%= review.movie.title %></p>
         <% end %>
@@ -39,7 +39,7 @@
             <% end %>
           <% end %>
           <!-- change external rating to this dbs review rating when reviews exist -->
-          <p class="float-right mb-0 stars-container stars-<%= ((movie.external_rating*10).to_i).to_s %>">★★★★★</p>
+          <p class="float-right mb-0 stars-container stars-<%= ((movie.external_rating*10).to_i).to_s %>">★★★★</p>
           <br/>
         <% end %>
       <% end %>

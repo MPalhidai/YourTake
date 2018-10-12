@@ -97,7 +97,7 @@ const renderMovies = (movies) => {
 
         let movie_card_rating_stars = document.createElement('span');
         movie_card_rating_stars.classList.add('stars-container', 'stars-' + (movie.vote_average*10).toString());
-        movie_card_rating_stars.innerHTML = '★★★★★';
+        movie_card_rating_stars.innerHTML = '★★★★';
 
         let movie_card_rating_partial = document.createElement('a');
         movie_card_rating_partial.classList.add('movie_card_rating', 'mb-0');
@@ -132,7 +132,7 @@ const renderMovies = (movies) => {
 
     let movie_card_star_span = document.createElement('span');
     movie_card_star_span.classList.add('stars-container', 'bigger', 'stars-' + (movie.vote_average*10).toString());
-    movie_card_star_span.innerHTML = '★★★★★';
+    movie_card_star_span.innerHTML = '★★★★';
 
     let movie_card_bot_col_8 = document.createElement('div');
     movie_card_bot_col_8.classList.add('col-8');

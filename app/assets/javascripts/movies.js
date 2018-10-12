@@ -63,11 +63,7 @@ const renderMovies = (movies) => {
       $.ajax({
         url: 'movies',
         type: 'POST',
-        data: movieData,
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-Token': token
-        }
+        data: movieData
       });
     });
 
@@ -111,12 +107,7 @@ const renderMovies = (movies) => {
         let long_name = api_movie_review_call.results[i].author;
         if ((long_comment + long_name).length > 35) {
           let short_comment = long_comment.substring(0, 32) + "...";
-          if ((short_comment + long_name).length > 35) {
-            let short_name = long_name.substring(0, 10) + "...";
-            movie_card_rating_partial.innerHTML = ` ${short_comment} - ${short_name}`;
-          } else {
-            movie_card_rating_partial.innerHTML = ` ${short_comment} - ${long_name}`;
-          }
+          movie_card_rating_partial.innerHTML = ` ${short_comment} -\n${long_name}`;
         } else {
           movie_card_rating_partial.innerHTML = ` ${long_comment} - ${long_name}`;
         }
@@ -178,9 +169,13 @@ const renderMovies = (movies) => {
     movie_card_form_movie_id.setAttribute("type", "hidden");
     movie_card_form_movie_id.value = movie.id;
     movie_card_form_movie_id.name = 'external_id';
+    // let movie_card_form_token = document.createElement('input');
+    // movie_card_form_token.setAttribute("type", "hidden");
+    // movie_card_form_token.value = token;
+    // movie_card_form_token.name = 'csrf-token';
     let movie_card_form_submit = document.createElement('button');
     movie_card_form_submit.classList.add('movie_card_form_submit', 'btn', 'btn-outline-info');
-    // movie_card_form_submit.setAttribute("type", "submit");
+    movie_card_form_submit.setAttribute("type", "submit");
     movie_card_form_submit.innerHTML = "Submit";
 
     movie_card_form_submit.addEventListener('click', () => {
@@ -188,11 +183,7 @@ const renderMovies = (movies) => {
       $.ajax({
         url: 'reviews',
         type: 'POST',
-        data: reviewData,
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-Token': token
-        }
+        data: reviewData
       });
     });
     // form
@@ -252,7 +243,7 @@ const renderMovies = (movies) => {
   });
 };
 
-let token = $('meta[name=csrf-token]').attr('content');
+
 
 function objectifyForm(formArray) {
   let returnArray = {};
@@ -272,52 +263,63 @@ function getFormDataAsJSON(id) {
   return JSON.stringify({ 'review': obj });
 }
 
-$('#movies').ready(function(){
-
-  $.ajax(settings).done(function (api_genre_call) {
-    api_genre_call.genres.forEach(function(genre) {
-      genreList[genre.id] = genre.name;
-    });
-  });
-
-  let page_max = 1;
-  function* nextPage(page, url) {
-    while (page <= page_max) {
-      settings.url = url + page.toString();
-      $.ajax(settings).done(function (api_movie_call) {
-        page_max = api_movie_call.total_pages;
-        renderMovies(api_movie_call);
+$(document).ready(function(){
+  if($('body.movies.index').length) {
+    $(function(){
+      // always pass csrf tokens on ajax calls
+      $.ajaxSetup({
+        headers: {
+          'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content'),
+          'Content-Type': 'application/json'
+        }
       });
-      yield page++;
+    });
+
+    $.ajax(settings).done(function (api_genre_call) {
+      api_genre_call.genres.forEach(function(genre) {
+        genreList[genre.id] = genre.name;
+      });
+    });
+
+    let page_max = 1;
+    function* nextPage(page, url) {
+      while (page <= page_max) {
+        settings.url = url + page.toString();
+        $.ajax(settings).done(function (api_movie_call) {
+          page_max = api_movie_call.total_pages;
+          renderMovies(api_movie_call);
+        });
+        yield page++;
+      }
     }
-  }
 
-  let pageUp = nextPage(1, moviePopularityURL);
-  pageUp.next();
+    let pageUp = nextPage(1, moviePopularityURL);
+    pageUp.next();
 
-  function clearCards(div) {
-    let myNode = document.querySelector(div);
-    while (myNode.firstChild) {
-      myNode.removeChild(myNode.firstChild);
+    function clearCards(div) {
+      let myNode = document.querySelector(div);
+      while (myNode.firstChild) {
+        myNode.removeChild(myNode.firstChild);
+      }
     }
-  }
 
-  $('.moreMovies').on('click', function(){
-    pageUp.next();
-  });
-  $('.title').on('click', function(){
-    pageUp = nextPage(1, movieTitleURL);
-    clearCards('.movie_partials');
-    pageUp.next();
-  });
-  $('.releaseDate').on('click', function(){
-    pageUp = nextPage(1, movieReleaseURL);
-    clearCards('.movie_partials');
-    pageUp.next();
-  });
-  $('.genre').on('click', function(){
-    pageUp = nextPage(1, movieGenreURL);
-    clearCards('.movie_partials');
-    pageUp.next();
-  });
+    $('.moreMovies').on('click', function(){
+      pageUp.next();
+    });
+    $('.title').on('click', function(){
+      pageUp = nextPage(1, movieTitleURL);
+      clearCards('.movie_partials');
+      pageUp.next();
+    });
+    $('.releaseDate').on('click', function(){
+      pageUp = nextPage(1, movieReleaseURL);
+      clearCards('.movie_partials');
+      pageUp.next();
+    });
+    $('.genre').on('click', function(){
+      pageUp = nextPage(1, movieGenreURL);
+      clearCards('.movie_partials');
+      pageUp.next();
+    });
+  }
 });

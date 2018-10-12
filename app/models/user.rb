@@ -4,5 +4,4 @@ class User < ApplicationRecord
          :confirmable, :lockable, :timeoutable
 
   has_many :reviews, :dependent => :destroy
-
 end

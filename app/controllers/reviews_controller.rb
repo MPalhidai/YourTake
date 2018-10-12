@@ -1,10 +1,9 @@
 class ReviewsController < ApplicationController
   before_action :authenticate_user!, only: [:create, :destroy]
-  before_action :find_movie, only: [:create]
 
   def create
     @review = current_user.reviews.build(review_params)
-    @review.movie_id = @movie
+    @review.movie_id = find_movie
 
     if @review.save
       flash[:notice] = "Review successfully posted for #{@review.movie.title}."
@@ -30,7 +29,7 @@ class ReviewsController < ApplicationController
   private
 
   def find_movie
-    @movie ||= Movie.find_by(external_id: params[:external_id])
+    @movie ||= Movie.find_by(external_id: params[external_id])
   end
 
   def review
@@ -38,7 +37,7 @@ class ReviewsController < ApplicationController
   end
 
   def review_params
-    params.require(:review).permit(:comment, :rating, :external_id, :user_id, :movie_id)
+    params.require(:review).permit(:comment, :rating, :external_id)
   end
 
 end

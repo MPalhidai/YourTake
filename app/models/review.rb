@@ -1,6 +1,6 @@
 class Review < ApplicationRecord
-  belongs_to :user, :dependent => :destroy
-  belongs_to :movie, :dependent => :destroy
+  belongs_to :user
+  belongs_to :movie
 
   validates :comment, presence: true
   validates :rating, presence: true, inclusion: { in: 0..100, message: 'The rating must be between 0 and 100' }

@@ -34,12 +34,13 @@ class ReviewsController < ApplicationController
   def destroy
     review.destroy
     flash[:notice] = "Your review of #{@review.movie.title} was successfully removed."
+    redirect_to request.referrer
   end
 
   private
 
   def find_movie
-    @movie = Movie.find_by(external_id: @review.external_id)
+    @movie ||= Movie.find_by(external_id: @review.external_id)
   end
 
   def review

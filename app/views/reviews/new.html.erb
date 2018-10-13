@@ -11,10 +11,10 @@
     <div class="field py-3">
       <%= f.label :comment, "Comment:" %>
       <br/>
-      <%= f.text_area(:comment, class: 'form-control', placeholder: "This movie was awesome!") %>
+      <%= f.text_area(:comment, class: 'form-control', placeholder: "#{@movie.title} was awesome!") %>
     </div>
 
-    <div class="field py-3">
+    <div class="field">
       <%= f.hidden_field(:movie_id, value: @movie.id) %>
       <%= f.hidden_field(:external_id, placeholder: params[:external_id]) %>
     </div>

@@ -4,12 +4,16 @@ class ReviewsController < ApplicationController
   def new
     @review = current_user.reviews.build(review_params)
     find_movie
+    if !@movie
+      flash[:notice] = "Please add the movie by clicking on the title."
+      redirect_to root_path
+    end
   end
 
   def create
     @review = current_user.reviews.build(review_params)
     find_movie
-    
+
     if @review.save
       flash[:notice] = "Review successfully posted for #{@review.movie.title}."
       redirect_to @movie

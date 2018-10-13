@@ -4,4 +4,8 @@ class User < ApplicationRecord
          :confirmable, :lockable, :timeoutable
 
   has_many :reviews, :dependent => :destroy
+
+  def get_reviews
+    Review.where(user_id: self.id)
+  end
 end

@@ -4,4 +4,5 @@ Rails.application.routes.draw do
   resources :movies, only: [:index, :create, :show]
   resources :reviews, except: [:edit, :update]
   get "/static_pages/about" => "static_pages#about", as: "about"
+  get "/users/activity" => "users#activity", as: "activity"
 end

@@ -180,54 +180,51 @@ const renderMovies = (movies) => {
   });
 };
 
-$(document).ready(function(){
-  if($('body.movies.index').length) {
+$('.movies.index').ready(function(){
+  $.ajax(settings).done(function (api_genre_call) {
+    api_genre_call.genres.forEach(function(genre) {
+      genreList[genre.id] = genre.name;
+    });
+  });
 
-    $.ajax(settings).done(function (api_genre_call) {
-      api_genre_call.genres.forEach(function(genre) {
-        genreList[genre.id] = genre.name;
+  let page_max = 1;
+  function* nextPage(page, url) {
+    while (page <= page_max) {
+      settings.url = url + page.toString();
+      $.ajax(settings).done(function (api_movie_call) {
+        page_max = api_movie_call.total_pages;
+        renderMovies(api_movie_call);
       });
-    });
-
-    let page_max = 1;
-    function* nextPage(page, url) {
-      while (page <= page_max) {
-        settings.url = url + page.toString();
-        $.ajax(settings).done(function (api_movie_call) {
-          page_max = api_movie_call.total_pages;
-          renderMovies(api_movie_call);
-        });
-        yield page++;
-      }
+      yield page++;
     }
-
-    let pageUp = nextPage(1, moviePopularityURL);
-    pageUp.next();
-
-    function clearCards(div) {
-      let myNode = document.querySelector(div);
-      while (myNode.firstChild) {
-        myNode.removeChild(myNode.firstChild);
-      }
-    }
-
-    $('.moreMovies').on('click', function(){
-      pageUp.next();
-    });
-    $('.title').on('click', function(){
-      pageUp = nextPage(1, movieTitleURL);
-      clearCards('.movie_partials');
-      pageUp.next();
-    });
-    $('.releaseDate').on('click', function(){
-      pageUp = nextPage(1, movieReleaseURL);
-      clearCards('.movie_partials');
-      pageUp.next();
-    });
-    $('.genre').on('click', function(){
-      pageUp = nextPage(1, movieGenreURL);
-      clearCards('.movie_partials');
-      pageUp.next();
-    });
   }
+
+  let pageUp = nextPage(1, moviePopularityURL);
+  pageUp.next();
+
+  function clearCards(div) {
+    let myNode = document.querySelector(div);
+    while (myNode.firstChild) {
+      myNode.removeChild(myNode.firstChild);
+    }
+  }
+
+  $('.moreMovies').on('click', function(){
+    pageUp.next();
+  });
+  $('.title').on('click', function(){
+    pageUp = nextPage(1, movieTitleURL);
+    clearCards('.movie_partials');
+    pageUp.next();
+  });
+  $('.releaseDate').on('click', function(){
+    pageUp = nextPage(1, movieReleaseURL);
+    clearCards('.movie_partials');
+    pageUp.next();
+  });
+  $('.genre').on('click', function(){
+    pageUp = nextPage(1, movieGenreURL);
+    clearCards('.movie_partials');
+    pageUp.next();
+  });
 });

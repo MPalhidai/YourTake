@@ -10,7 +10,7 @@ const MONTHS = {'01':'Jan','02':'Feb','03':'Mar','04':'Apr','05':'May','06':'Jun
 let moviePopularityURL = BASEURL + DISCOVER + "&sort_by=popularity.desc&include_adult=false&include_video=false&page=";
 let movieReleaseURL = BASEURL + DISCOVER + "&sort_by=release_date.desc&include_adult=false&include_video=false&vote_count.gte=1&primary_release_year=2018&page=";
 let movieTitleURL = BASEURL + DISCOVER + "&sort_by=original_title.asc&include_adult=false&include_video=false&vote_count.gte=1&page=";
-let movieGenreURL = BASEURL + DISCOVER + "&sort_by=popularity.desc&include_adult=false&include_video=false&vote_count.gte=1&with_genres=28&page=";
+let movieGenreURL = BASEURL + DISCOVER + "&sort_by=popularity.desc&include_adult=false&include_video=false&vote_count.gte=1&with_genres=";
 
 let genreList = {};
 
@@ -181,9 +181,19 @@ const renderMovies = (movies) => {
 };
 
 $('.movies.index').ready(function(){
+
   $.ajax(settings).done(function (api_genre_call) {
     api_genre_call.genres.forEach(function(genre) {
       genreList[genre.id] = genre.name;
+      let newGenre = document.createElement('button');
+      newGenre.innerHTML = genre.name;
+      newGenre.classList.add('dropdown-item', 'btn', 'btn-link');
+      newGenre.addEventListener('click', function() {
+        pageUp = nextPage(1, movieGenreURL + `${genre.id}&page=`);
+          clearCards('.movie_partials');
+          pageUp.next();
+      });
+      document.querySelector('.genre').appendChild(newGenre);
     });
   });
 
@@ -219,11 +229,6 @@ $('.movies.index').ready(function(){
   });
   $('.releaseDate').on('click', function(){
     pageUp = nextPage(1, movieReleaseURL);
-    clearCards('.movie_partials');
-    pageUp.next();
-  });
-  $('.genre').on('click', function(){
-    pageUp = nextPage(1, movieGenreURL);
     clearCards('.movie_partials');
     pageUp.next();
   });

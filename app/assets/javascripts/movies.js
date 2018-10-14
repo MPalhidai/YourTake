@@ -1,3 +1,5 @@
+// app/assets/javascripts/movies.js
+
 const BASEURL = "https://api.themoviedb.org/3/";
 const KEY = "?api_key=b93dbe1063e7a3c72594bd72ccddee56";
 const GENRE = "genre/movie/list";
@@ -181,7 +183,6 @@ const renderMovies = (movies) => {
 };
 
 $('.movies.index').ready(function(){
-
   $.ajax(settings).done(function (api_genre_call) {
     api_genre_call.genres.forEach(function(genre) {
       genreList[genre.id] = genre.name;
@@ -231,5 +232,14 @@ $('.movies.index').ready(function(){
     pageUp = nextPage(1, movieReleaseURL);
     clearCards('.movie_partials');
     pageUp.next();
+  });
+
+  $('#search-input').on('keydown', function search(enter) {
+    if (enter.keyCode == 13) {
+      let searchURL = BASEURL + 'search/movie' + KEY + LANGUAGE + '&include_adult=false&query=' + `${$(this).val()}&page=`;
+      pageUp = nextPage(1, searchURL);
+      clearCards('.movie_partials');
+      pageUp.next();
+    }
   });
 });

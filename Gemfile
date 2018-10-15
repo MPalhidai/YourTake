@@ -40,6 +40,7 @@ gem 'devise'
 gem 'bootstrap', '~> 4.1.3'
 gem 'jquery-rails'
 gem 'font-awesome-rails'
+gem "aws-sdk-s3", require: false
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.8'

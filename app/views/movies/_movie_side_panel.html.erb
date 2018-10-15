@@ -3,7 +3,7 @@
     <div class="col p-0">
       <h3 class="mb-3">Recent Reviews</h3>
       <!-- recently reviewed movies in this db -->
-      <% if @reviews.empty? %>
+      <% if @reviews.length == 0 %>
         <p class="mb-0">No Recent Movie Reviews</p>
         <br/>
       <% else %>

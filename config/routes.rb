@@ -5,4 +5,5 @@ Rails.application.routes.draw do
   resources :reviews, except: [:edit, :update]
   get "/static_pages/about" => "static_pages#about", as: "about"
   get "/users/activity" => "users#activity", as: "activity"
+  get "/list" => "movies#list", as: "list"
 end

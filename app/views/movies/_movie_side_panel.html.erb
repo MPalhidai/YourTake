@@ -45,11 +45,11 @@
             <% end %>
           <% end %>
           <!-- change external rating to this dbs review rating when reviews exist -->
-          <p class="float-right mb-0 stars-container stars-<%= ((movie.external_rating*10).to_i).to_s %>">★★★★</p>
+          <p class="float-right mb-0 stars-container stars-<%= (movie.your_rating).to_s %>">★★★★</p>
           <br/>
         <% end %>
       <% end %>
-      <%= link_to "View All Movies", root_path, class: "float-right mt-3" %>
+      <%= link_to "View All Movies", list_path, class: "float-right mt-3" %>
     </div>
   </div>
 </div>

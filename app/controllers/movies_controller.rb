@@ -18,6 +18,10 @@ class MoviesController < ApplicationController
     @movie ||= Movie.find(params[:id])
   end
 
+  def list
+    @movies = Movie.all.sort_by{ |movie| movie.reviews.length }.reverse
+  end
+
   private
 
   def movie_params

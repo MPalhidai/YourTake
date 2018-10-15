@@ -68,6 +68,12 @@ const renderMovies = (movies) => {
         data: movieData,
         headers: {
           'Content-Type': 'application/json'
+        },
+        success: function(response) {
+          window.location.href = 'list';
+        },
+        error: function(request, status, error) {
+          alert(request.responseText);
         }
       });
     });
@@ -91,6 +97,7 @@ const renderMovies = (movies) => {
 
     let movie_card_rating_div = document.createElement('div');
     movie_card_rating_div.classList.add('movie_card_reviews');
+    movie_card_rating_div.id = 'movie_card_reviews';
 
     let movie_card_rating_div_hidden = document.createElement('div');
     movie_card_rating_div_hidden.classList.add('movie_card_reviews_hidden', 'd-none');

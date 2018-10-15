@@ -7,7 +7,7 @@ class MoviesController < ApplicationController
   def create
     @movie = Movie.new(movie_params)
     if @movie.save
-      flash[:notice] = "New movie successfully created."
+      flash[:notice] = "Thank you for adding #{@movie.title}"
       redirect_to @movie
     else
       flash.now[:notice] = "Movie was not created."
@@ -20,6 +20,7 @@ class MoviesController < ApplicationController
 
   def list
     @movies = Movie.all.sort_by{ |movie| movie.reviews.length }.reverse
+    @newest = Movie.all.reverse
   end
 
   private

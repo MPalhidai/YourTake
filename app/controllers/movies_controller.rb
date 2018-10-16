@@ -10,7 +10,7 @@ class MoviesController < ApplicationController
       flash[:notice] = "Thank you for adding #{@movie.title}"
       redirect_to @movie
     else
-      flash.now[:notice] = "Movie was not created."
+      flash[:notice] = "Movie was not created."
     end
   end
 

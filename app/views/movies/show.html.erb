@@ -1,11 +1,11 @@
 <div class="row justify-content-center pt-5">
   <div class="col-lg-6 col-md-8 col-sm-10">
     <div class="row justify-content-center align-items-center">
-      <div class="col">
+      <div class="col-9">
         <h1><%= @movie.title %></h1>
         <h6>Average Rating: <%= @movie.your_rating %></h6>
       </div>
-      <div class="col text-right">
+      <div class="col-3 text-right">
         <%= link_to action: 'new', controller: '/reviews', review: {external_id: @movie.external_id} do %>
           <button class="btn btn-outline-secondary">Write Review</button>
         <% end %>
@@ -16,7 +16,7 @@
         <h1>Recent Reviews</h1>
         <hr>
         <% @movie.reviews.reverse.each do |review| %>
-        <div class="border rounded mb-3">
+        <div class="border rounded mb-3 movie_card">
           <div class="row justify-content-between py-3">
             <div class="col bigger">
               <p class="mb-1"><%= review.user.name %></p>

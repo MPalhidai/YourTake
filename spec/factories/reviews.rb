@@ -1,8 +1,9 @@
 FactoryBot.define do
   factory :review do
-    comment { "MyString" }
+    comment { "Great!!!" }
     rating { 1 }
-    user { "" }
-    movie { "" }
+    external_id { 1000000 }
+    user { 1 }
+    movie { 1 }
   end
 end

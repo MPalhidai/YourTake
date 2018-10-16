@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :movie do
-    title { "MyString" }
-    external_id { "MyString" }
+    title { "Movie" }
+    external_id { 1000000 }
   end
 end

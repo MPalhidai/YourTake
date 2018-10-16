@@ -1,37 +1,35 @@
 <div class="row justify-content-around py-5">
   <div class="col-xl-4 col-lg-5">
-    <h1>Most Reviewed Movies</h1>
+    <h3>Most Reviewed Movies</h3>
     <hr>
     <% @movies.each do |movie| %>
-    <div class="border rounded mb-3">
+    <div class="border rounded mb-3 movie_card">
       <div class="row justify-content-between align-items-center py-3">
-        <div class="col bigger">
+        <div class="col">
           <%= link_to movie_path(movie.id) do %>
             <p class="m-0"><%= movie.title %></p>
           <% end %>
         </div>
-        <div class="col text-right bigger">
-          <span><%= movie.reviews.length %></span>
-          <p class="stars-container stars-<%= movie.your_rating.to_s %> m-0">★★★★</p>
+        <div class="col text-right">
+          <p class="stars-container stars-<%= movie.your_rating.to_s %> bigger m-0">★★★★</p>
         </div>
       </div>
     </div>
     <% end %>
   </div>
   <div class="col-xl-4 col-lg-5">
-    <h1>Newest Movies</h1>
+    <h3>Newest Movies</h3>
     <hr>
     <% @newest.each do |movie| %>
-    <div class="border rounded mb-3">
+    <div class="border rounded mb-3 movie_card">
       <div class="row justify-content-between align-items-center py-3">
-        <div class="col bigger">
+        <div class="col">
           <%= link_to movie_path(movie.id) do %>
             <p class="m-0"><%= movie.title %></p>
           <% end %>
         </div>
-        <div class="col text-right bigger">
-          <span><%= movie.reviews.length %></span>
-          <p class="stars-container stars-<%= movie.your_rating.to_s %> m-0">★★★★</p>
+        <div class="col text-right">
+          <p class="stars-container stars-<%= movie.your_rating.to_s %> bigger m-0">★★★★</p>
         </div>
       </div>
     </div>

@@ -5,13 +5,12 @@ class Movie < ApplicationRecord
   validates :external_id, uniqueness: true
 
   def your_rating
-    initial_rating = (self.external_rating * 10).to_i
     if self.reviews.length > 0
-      avg_reviews = self.reviews.map{ |review| review.rating }.reduce(:+)
-      # call api for vote total. 10 vote external avg weight
-      (initial_rating * 10 + avg_reviews) / (self.reviews.length + 10)
+      total_reviews = self.reviews.map{ |review| review.rating }.reduce(:+)
+      total_reviews / self.reviews.length
     else
-      initial_rating
+      (self.external_rating * 10).to_i
     end
   end
+
 end

@@ -8,9 +8,8 @@ class MoviesController < ApplicationController
     @movie = Movie.new(movie_params)
     if @movie.save
       flash[:notice] = "Thank you for adding #{@movie.title}"
-      redirect_to @movie
     else
-      flash[:notice] = "Movie was not created."
+      flash[:notice] = "Movie has already been added."
     end
   end
 

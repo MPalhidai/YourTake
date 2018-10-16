@@ -22,10 +22,10 @@ let settings = {
   url: GENRES,
   method: "GET",
   headers: {},
-  data: "{}"
+  data: {}
 };
 
-const renderMovies = (movies) => {
+const renderMovies = function(movies) {
   movies.results.forEach(function (movie) {
 
     if (!movie.poster_path) return; // skip if missing poster for aesthetics. Could be an array of all used results and checked for all !undefined
@@ -102,39 +102,48 @@ const renderMovies = (movies) => {
     let movie_card_rating_div_hidden = document.createElement('div');
     movie_card_rating_div_hidden.classList.add('movie_card_reviews_hidden', 'd-none');
 
-    settings.url = BASEURL + `movie/${movie.id}/reviews`+ KEY + LANGUAGE + `&page=1`;
-    $.ajax(settings).done(function (api_movie_review_call) {
+    const callBack = function(result) {
+      if (result <= 2) {
+        movie_card_view_more.classList.add('d-none');
+      };
+    }
 
-      for (let i = 0; i < api_movie_review_call.results.length; i++) {
+    function renderReviews(total) {
+      settings.url = BASEURL + `movie/${movie.id}/reviews`+ KEY + LANGUAGE + `&page=1`;
+      $.ajax(settings).done(function (api_movie_review_call) {
 
-        let movie_card_rating_stars = document.createElement('span');
-        movie_card_rating_stars.classList.add('stars-container', 'stars-' + (movie.vote_average*10).toString());
-        movie_card_rating_stars.innerHTML = '★★★★';
+        for (let i = 0; i < api_movie_review_call.results.length; i++) {
 
-        let movie_card_rating_partial = document.createElement('a');
-        movie_card_rating_partial.classList.add('movie_card_rating', 'mb-0');
-        movie_card_rating_partial.href = api_movie_review_call.results[i].url;
+          let movie_card_rating_stars = document.createElement('span');
+          movie_card_rating_stars.classList.add('stars-container', 'stars-' + (movie.vote_average*10).toString());
+          movie_card_rating_stars.innerHTML = '★★★★';
 
-        let long_comment = api_movie_review_call.results[i].content;
-        let long_name = api_movie_review_call.results[i].author;
-        if ((long_comment + long_name).length > 35) {
-          let short_comment = long_comment.substring(0, 32) + "...";
-          movie_card_rating_partial.innerHTML = ` ${short_comment} -\n${long_name}`;
-        } else {
-          movie_card_rating_partial.innerHTML = ` ${long_comment} - ${long_name}`;
+          let movie_card_rating_partial = document.createElement('a');
+          movie_card_rating_partial.classList.add('movie_card_rating', 'mb-0');
+          movie_card_rating_partial.href = api_movie_review_call.results[i].url;
+
+          let long_comment = api_movie_review_call.results[i].content;
+          let long_name = api_movie_review_call.results[i].author;
+          if ((long_comment + long_name).length > 35) {
+            let short_comment = long_comment.substring(0, 32) + "...";
+            movie_card_rating_partial.innerHTML = ` ${short_comment} -\n${long_name}`;
+          } else {
+            movie_card_rating_partial.innerHTML = ` ${long_comment} - ${long_name}`;
+          }
+
+          if (i < 2) {
+            movie_card_rating_div.appendChild(movie_card_rating_stars);
+            movie_card_rating_div.appendChild(movie_card_rating_partial);
+            movie_card_rating_div.appendChild(document.createElement('br'));
+          } else {
+            movie_card_rating_div_hidden.appendChild(movie_card_rating_stars);
+            movie_card_rating_div_hidden.appendChild(movie_card_rating_partial);
+            movie_card_rating_div_hidden.appendChild(document.createElement('br'));
+          }
         }
-
-        if (i < 2) {
-          movie_card_rating_div.appendChild(movie_card_rating_stars);
-          movie_card_rating_div.appendChild(movie_card_rating_partial);
-          movie_card_rating_div.appendChild(document.createElement('br'));
-        } else {
-          movie_card_rating_div_hidden.appendChild(movie_card_rating_stars);
-          movie_card_rating_div_hidden.appendChild(movie_card_rating_partial);
-          movie_card_rating_div_hidden.appendChild(document.createElement('br'));
-        }
-      }
-    });
+        total(api_movie_review_call.total_results);
+      });
+    };
 
     let movie_card_bot_row = document.createElement('div');
     movie_card_bot_row.classList.add('row', 'align-items-center');
@@ -155,7 +164,8 @@ const renderMovies = (movies) => {
     movie_card_view_more.addEventListener('click', () => {
       movie_card_rating_div_hidden.classList.remove('d-none');
     });
-    // change this to be able to view less reviews with jQuery hasClass or remove the button if hidden div has no child nodes
+
+    renderReviews(callBack);
 
     let movie_card_leave_review = document.createElement('a');
     movie_card_leave_review.classList.add('movie_card_leave_review', 'mr-3', 'p-0', 'btn', 'btn-link');

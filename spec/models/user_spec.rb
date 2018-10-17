@@ -2,10 +2,8 @@ require 'rails_helper'
 
 RSpec.describe User, type: :model do
 
-
-
   describe "when a user is built" do
-    
+
     let(:user) { FactoryBot.create(:user) }
 
     it "should be valid" do
@@ -56,13 +54,6 @@ RSpec.describe User, type: :model do
       expect(duplicate_user.errors).to include(:email)
     end
 
-    it "should save email as lowercase" do
-      mixed_case_email = "Foo@ExAMPle.CoM"
-      user.email = mixed_case_email
-      user.save
-      expect(mixed_case_email.downcase).to eql(user.reload.email)
-    end
-
     it "should accept valid addresses" do
       valid_addresses = %w[user@example.com USER@foo.COM A_US-ER@foo.bar.org
                          first.last@foo.jp alice+bob@baz.cn]
@@ -79,10 +70,6 @@ RSpec.describe User, type: :model do
         user.email = invalid_address
         expect(user.valid?).not_to be(true), "#{invalid_address.inspect} should be invalid"
       end
-    end
-
-    it "writes a remember token in the remember digest" do
-      expect(user.remember_digest.nil?).not_to be true
     end
   end
 end

@@ -103,8 +103,8 @@ const renderMovies = function(movies) {
     movie_card_rating_div_hidden.classList.add('movie_card_reviews_hidden', 'd-none');
 
     const callBack = function(result) {
-      if (result <= 2) {
-        movie_card_view_more.classList.add('d-none');
+      if (result > 2) {
+        movie_card_view_more.classList.remove('d-none');
       };
     }
 
@@ -159,10 +159,11 @@ const renderMovies = function(movies) {
     movie_card_bot_col_8.classList.add('col-8');
 
     let movie_card_view_more = document.createElement('button');
-    movie_card_view_more.classList.add('movie_card_view_more', 'mr-3', 'p-0', 'btn', 'btn-link');
+    movie_card_view_more.classList.add('movie_card_view_more', 'mr-3', 'p-0', 'btn', 'btn-link', 'd-none');
     movie_card_view_more.innerHTML = "View More";
     movie_card_view_more.addEventListener('click', () => {
       movie_card_rating_div_hidden.classList.remove('d-none');
+      movie_card_view_more.classList.add('d-none');
     });
 
     renderReviews(callBack);

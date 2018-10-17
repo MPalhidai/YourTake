@@ -3,6 +3,7 @@ class Movie < ApplicationRecord
 
   validates :title, :external_rating, :external_id, presence: true
   validates :external_id, uniqueness: true
+  validates :external_rating, inclusion: { in: 0..10, message: 'the external rating is invalid' }
 
   def your_rating
     if self.reviews.length > 0

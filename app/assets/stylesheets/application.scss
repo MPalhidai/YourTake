@@ -1,6 +1,18 @@
 @import "bootstrap";
 @import "font-awesome";
 
+body {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.navbar {
+    padding: 0.8rem 1rem;
+}
+
+.contrast, .contrast:hover {
+    color: #FFF;
+}
+
 .row {
   margin: 0;
 }

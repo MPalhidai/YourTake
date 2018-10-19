@@ -12,9 +12,9 @@ These instructions will get you a copy of the project up and running on your loc
 
 Follow the RailsBridge Installfest instructions on how to setup of a Ruby on Rails environment with Git.
 
-* [RailsBridge](http://installfest.railsbridge.org/installfest/) - RailsBridge Installfest
+* [RailsBridge](http://installfest.railsbridge.org/installfest/) - Installfest
 
-My environment:
+my environment:
 ```
 rvm -v 1.29.14
 ruby -v 2.5.1p57
@@ -51,4 +51,4 @@ bundle exec rspec
 
 ## Authors
 
-* **Michael Palhidai** - [MPalhidai](https://github.com/MPalhidai)
+* [MPalhidai](https://github.com/MPalhidai)

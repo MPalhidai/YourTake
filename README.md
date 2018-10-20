@@ -42,7 +42,7 @@ Open your browser at "localhost:3000".
 
 ## Running the tests
 
-JS tests designed for chrome driver with Selenium.
+JS tests designed for chrome driver with Selenium. Running test may timeout the first time in Chrome with no cached items. Try to run rspec again without changes.
 
 run:
 ```

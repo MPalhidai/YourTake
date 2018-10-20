@@ -31,13 +31,22 @@ run:
 git clone https://github.com/MPalhidai/YourTake.git
 cd YourTake
 bundle install
+rails db:setup
 ```
+## Running local server:
+
+```
+rails server
+```
+Open your browser at "localhost:3000".
 
 ## Running the tests
 
+JS tests designed for chrome driver with Selenium.
+
 run:
 ```
-bundle exec rspec
+rspec
 ```
 
 ## Built With

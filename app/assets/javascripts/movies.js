@@ -1,5 +1,3 @@
-// app/assets/javascripts/movies.js
-
 const BASEURL = "https://api.themoviedb.org/3/";
 const KEY = "?api_key=b93dbe1063e7a3c72594bd72ccddee56";
 const GENRE = "genre/movie/list";
@@ -8,7 +6,6 @@ const DISCOVER = "discover/movie" + KEY + LANGUAGE;
 const GENRES = BASEURL + GENRE + KEY + LANGUAGE;
 const MONTHS = {'01':'Jan','02':'Feb','03':'Mar','04':'Apr','05':'May','06':'Jun','07':'Jul','08':'Aug','09':'Sep','10':'Oct','11':'Nov','12':'Dec'};
 
-// change all urls to dynamically generate from user dropdown menus
 let moviePopularityURL = BASEURL + DISCOVER + "&sort_by=popularity.desc&include_adult=false&include_video=false&page=";
 let movieReleaseURL = BASEURL + DISCOVER + "&sort_by=release_date.desc&include_adult=false&include_video=false&vote_count.gte=1&primary_release_year=2018&page=";
 let movieTitleURL = BASEURL + DISCOVER + "&sort_by=original_title.asc&include_adult=false&include_video=false&vote_count.gte=1&page=";
@@ -28,7 +25,7 @@ let settings = {
 const renderMovies = function(movies) {
   movies.results.forEach(function (movie) {
 
-    if (!movie.poster_path) return; // skip if missing poster for aesthetics. Could be an array of all used results and checked for all !undefined
+    if (!movie.poster_path) return;
 
     let movie_partials = document.querySelector('.movie_partials');
 
@@ -58,7 +55,6 @@ const renderMovies = function(movies) {
     } else {
       movie_card_title.innerHTML = movie.title;
     }
-
 
     let movieData = JSON.stringify({ "movie": { 'external_rating': movie.vote_average, 'external_id': movie.id, 'title': movie.title } });
     movie_card_title.addEventListener('click', () => {
@@ -106,7 +102,7 @@ const renderMovies = function(movies) {
       if (result > 2) {
         movie_card_view_more.classList.remove('d-none');
       };
-    }
+    };
 
     function renderReviews(total) {
       settings.url = BASEURL + `movie/${movie.id}/reviews`+ KEY + LANGUAGE + `&page=1`;
@@ -236,16 +232,18 @@ $('.movies.index').ready(function(){
     while (myNode.firstChild) {
       myNode.removeChild(myNode.firstChild);
     }
-  }
+  };
 
   $('.moreMovies').on('click', function(){
     pageUp.next();
   });
+
   $('.title').on('click', function(){
     pageUp = nextPage(1, movieTitleURL);
     clearCards('.movie_partials');
     pageUp.next();
   });
+
   $('.releaseDate').on('click', function(){
     pageUp = nextPage(1, movieReleaseURL);
     clearCards('.movie_partials');

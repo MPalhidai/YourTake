@@ -2,7 +2,6 @@
   <div class="row">
     <div class="col p-0">
       <h3 class="mb-3">Recent Reviews</h3>
-      <!-- recently reviewed movies in this db -->
       <% if @reviews.length == 0 %>
         <p class="mb-0">No Recent Movie Reviews</p>
         <br/>
@@ -27,7 +26,6 @@
   </div>
   <hr>
   <div class="row">
-    <!-- recently created movies in this db -->
     <div class="col p-0">
       <h3 class="mb-3">Recent Movies</h3>
       <% if @movies.empty? %>
@@ -44,7 +42,6 @@
               <p class="float-left mb-0"><%= movie.title %></p>
             <% end %>
           <% end %>
-          <!-- change external rating to this dbs review rating when reviews exist -->
           <p class="float-right mb-0 stars-container stars-<%= (movie.your_rating).to_s %>">★★★★</p>
           <br/>
         <% end %>

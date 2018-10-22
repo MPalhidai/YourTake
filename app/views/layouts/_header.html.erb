@@ -1,7 +1,9 @@
 <nav class="navbar navbar-dark bg-dark text-white">
   <div class="row justify-content-between align-items-center w-100">
     <div class="col-4">
-      <h3 class="m-0">YourTake</h3>
+      <%= link_to root_path, class: "contrast" do %>
+        <h3 class="m-0">YourTake</h3>
+      <% end %>
     </div>
     <div class="col text-right">
       <%= link_to root_path, class: "pl-2 contrast" do %>

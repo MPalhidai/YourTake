@@ -3,7 +3,13 @@
     <div class="row justify-content-center align-items-center">
       <div class="col-9">
         <h1><%= @movie.title %></h1>
-        <h6>Average Rating: <%= @movie.your_rating %>%</h6>
+        <h6>Average Rating: <%= @movie.your_rating %>%
+        <% if @movie.your_rating > 50 %>
+          <span class="ml-3"><%= fa_icon 'smile-o' %></span>
+        <% else %>
+          <span class="ml-3"><%= fa_icon 'meh-o' %></span>
+        <% end %>
+        </h6>
       </div>
       <div class="col-3 text-right">
         <%= link_to action: 'new', controller: '/reviews', review: {external_id: @movie.external_id} do %>

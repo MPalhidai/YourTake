@@ -10,9 +10,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-Follow the RailsBridge Installfest instructions on how to setup of a Ruby on Rails environment with Git. Make sure to install the rails and bundler gems.
-
-* [RailsBridge](http://installfest.railsbridge.org/installfest/) - Installfest
+This project runs on [Ruby](https://www.ruby-lang.org/en/documentation/installation/) and [Rails](http://installrails.com/)
 
 Current environment:
 ```

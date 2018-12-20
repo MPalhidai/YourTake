@@ -1,8 +1,8 @@
-# YourTake
+# [YourTake](https://yourtake.herokuapp.com/)
 
 YourTake is a movie review website created by Michael Palhidai to show Teachers' Curriculum Institute that I am a competent full stack rails developer. TCI and I have the same mission to create a better future by helping our teachers and students. Try out the website at the link below.
 
-* [YourTake](https://yourtake.herokuapp.com/)
+![screen shot 2018-12-19 at 6 41 30 pm](https://user-images.githubusercontent.com/25018247/50260863-bb25d880-03be-11e9-8a2b-b7308fac5a76.png)
 
 ## Getting Started
 
